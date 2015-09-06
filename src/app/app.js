@@ -40,33 +40,17 @@ angular.module('YaDespesas', ['ionic'])
   })
 
   // Each tab has its own nav history stack:
-  .state('tab.add', {
-    url: '/add',
-    views: {
-      'tab-add': {
-        templateUrl: 'app/add/add.html',
-        controller: 'AddCtrl'
-      }
-    }
-  })
-  .state('tab.details', {
-      url: '/details',
-      views: {
-        'tab-details': {
-          templateUrl: 'app/details/details.html',
-          controller: 'DetailsCtrl'
-        }
-      }
-    })
-  .state('tab.options', {
-    url: '/options',
-    views: {
-      'tab-options': {
-        templateUrl: 'app/options/options.html',
-        controller: 'OptionsCtrl'
-      }
-    }
-  })
+  // Example:
+  // .state('tab.add', {
+  //   url: '/add',
+  //   views: {
+  //     'tab-add': {
+  //       templateUrl: 'app/add/add.html',
+  //       controller: 'AddCtrl'
+  //     }
+  //   }
+  // })
+
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/add');
 });

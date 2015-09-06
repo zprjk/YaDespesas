@@ -1,23 +1,53 @@
 <ion-view view-title="Adicionar">
-  <ion-content class="padding">
-    <div class="list card">
-      <div class="item item-divider">Recent Updates</div>
-      <div class="item item-body">
-        <div>
-          {{hello}}
-        </div>
-      </div>
-    </div>
-    
-    <div class="list">
+  <ion-content class="">
+    <!-- inputs -->
+    <div class="list padding">
+      <!-- number -->
       <label class="item item-input">
-        <span class="input-label">Username</span>
-        <input type="text">
+        <input type="number" placeholder="Valor">
+      </label>
+      <!-- options -->
+      <label class="item item-input item-select">
+        <div class="input-label">Quem</div>
+        <select>
+          <option selected>Eu</option>
+          <option>Ela</option>
+          <option>Nós</option>
+        </select>
+      </label>
+      <label class="item item-input item-select">
+        <div class="input-label">Despesa</div>
+        <select>
+          <option selected>Colectiva</option>
+          <option>Individual</option>
+        </select>
+      </label>
+      <label class="item item-input item-select">
+        <div class="input-label">Percentagem</div>
+        <select>
+          <option selected>50-50</option>
+          <option>70-30</option>
+        </select>
+      </label>
+      <label class="item item-input item-select">
+        <div class="input-label">Descrição</div>
+        <select>
+          <option selected>Renda</option>
+          <option>MEO</option>
+          <option>Água</option>
+          <option>Luz</option>
+          <option>Gás</option>
+          <option>Alimentação</option>
+          <option>Casa</option>
+          <option>Lazer</option>
+          <option>Outros</option>
+        </select>
       </label>
       <label class="item item-input">
-        <span class="input-label">Password</span>
-        <input type="password">
+        <input type="text" placeholder="Descrição (opcional)">
       </label>
     </div>
+   <button class="button button-full button-balanced">Submeter</button>
   </ion-content>
+ 
 </ion-view>
