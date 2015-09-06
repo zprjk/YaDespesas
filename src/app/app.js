@@ -36,7 +36,7 @@ angular.module('YaDespesas', ['ionic'])
     .state('tab', {
     url: '/tab',
     abstract: true,
-    templateUrl: 'app/tabs.html'
+    templateUrl: 'components/tabs/tabs.html'
   })
 
   // Each tab has its own nav history stack:
