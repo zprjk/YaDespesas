@@ -40,7 +40,7 @@ gulp.task('serve', function(cb) {
 
 //Builds 'www' folder
 gulp.task('build', function(cb) {
-  runSequence('clean:build', 'inject:main-bower-files', 'inject', ['js', 'js:main-bower-files', 'html', 'css', 'image'], cb);
+  runSequence('clean:build', 'inject:main-bower-files', 'inject', ['js', 'js:main-bower-files', 'html', 'css', 'image', 'other-files'], cb);
 });
 
 gulp.task('js', function() {
@@ -67,7 +67,7 @@ gulp.task('css', function() {
   return gulp.src([paths.css, '!' + paths.bower], {
       base: SRC
     })
-    .pipe(gulpif(target, minify()))
+    // .pipe(gulpif(target, minify())) //wtf not working. Why?
     .pipe(gulp.dest(DIST))
     .pipe(connect.reload());
 });
@@ -83,6 +83,14 @@ gulp.task('html', function() {
 gulp.task('image', function() {
   return gulp.src([paths.image, '!' + paths.bower], {
       base: SRC
+    })
+    .pipe(gulp.dest(DIST))
+    .pipe(connect.reload());
+});
+
+gulp.task('other-files', function() {
+  return gulp.src(['*.ico'], {
+      cwd: SRC
     })
     .pipe(gulp.dest(DIST))
     .pipe(connect.reload());
@@ -134,18 +142,20 @@ gulp.task('clean:build', function() {
 gulp.task('watch', function(cb) {
   gulp.watch(paths.html, ['html']);
 
+  // gulp.watch(['app/**/*.*!(html,js,css,png,jpeg)', 'assets/**/.*!(html,js,css,png,jpeg)', '*.*!(html,js,css,png,jpeg)'], ['other-files']);
+
   gulp.watch(paths.image, ['image']);
 
   gulp.watch([paths.js, paths.css], function(event) {
-    if(event.type === 'changed') {
-      if(event.path.indexOf('.js') !== -1)
+    if (event.type === 'changed') {
+      if (event.path.indexOf('.js') !== -1)
         gulp.start('js');
       else
         gulp.start('css');
     }
 
     if (event.type === 'added' || event.type === 'deleted') {
-      if(event.path.indexOf('.js') !== -1)
+      if (event.path.indexOf('.js') !== -1)
         gulp.start(['inject', 'js']);
       else
         gulp.start(['inject', 'css']);
@@ -155,7 +165,7 @@ gulp.task('watch', function(cb) {
   //Note:Throwing 'Error: watch EPERM' if you deleted a bower plugin
   gulp.watch(paths.bower, function(event) {
     if (event.type === 'added' || event.type === 'deleted')
-      // gulp.start(['inject:main-bower-files', 'js:main-bower-files']);
+    // gulp.start(['inject:main-bower-files', 'js:main-bower-files']);
       runSequence('inject:main-bower-files', 'js:main-bower-files');
   });
 
