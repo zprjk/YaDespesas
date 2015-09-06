@@ -6,3 +6,4 @@ platforms/
 plugins/
 src/bower_components
 www/
+.io-config.json
