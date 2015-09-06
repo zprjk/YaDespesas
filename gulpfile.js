@@ -31,6 +31,10 @@ var paths = {
 };
 
 gulp.task('default', function(cb) {
+  runSequence('serve', cb);
+});
+
+gulp.task('serve', function(cb) {
   runSequence('build', 'connect', 'watch', cb);
 });
 
