@@ -1,5 +1,5 @@
 <ion-view view-title="Adicionar">
-  <ion-content class="">
+  <ion-content>
     <!-- inputs -->
     <div class="list padding">
       <!-- number -->
@@ -9,45 +9,35 @@
       <!-- options -->
       <label class="item item-input item-select">
         <div class="input-label">Quem</div>
-        <select>
-          <option selected>Eu</option>
-          <option>Ela</option>
-          <option>Nós</option>
+        <select ng-model="whoSelected">
+          <option ng-repeat="person in who" ng-selected="whoSelected === person" value="{{person}}">{{person}}</option>
         </select>
       </label>
       <label class="item item-input item-select">
         <div class="input-label">Despesa</div>
-        <select>
-          <option selected>Colectiva</option>
-          <option>Individual</option>
+        <select ng-model="expensiveTypeSelected">
+          <option ng-repeat="expType in expensiveTypes" ng-selected="expensiveTypeSelected === expType" value="{{expType}}">{{expType}}</option>
         </select>
       </label>
-      <label class="item item-input item-select">
+      <!-- <label class="item item-input item-select" ng-show="expensiveTypeSelected === 'Colectiva'">
         <div class="input-label">Percentagem</div>
-        <select>
-          <option selected>50-50</option>
-          <option>70-30</option>
+        <select ng-model="percentageTypeSelected">
+          <option ng-repeat="percType in percentageTypes" value="{{percType}}">{{percType}}</option>
         </select>
-      </label>
-      <label class="item item-input item-select">
+      </label> -->
+      <label class="item item-input item-select" ng-show="expensiveTypeSelected === 'Colectiva'">
         <div class="input-label">Descrição</div>
-        <select>
-          <option selected>Renda</option>
-          <option>MEO</option>
-          <option>Água</option>
-          <option>Luz</option>
-          <option>Gás</option>
-          <option>Alimentação</option>
-          <option>Casa</option>
-          <option>Lazer</option>
-          <option>Outros</option>
+        <select ng-model="descriptionSelected">
+          <option value="">-- Selecionar --</option>
+          <option ng-repeat="desc in descriptions" value="{{desc}}">{{desc}}</option>
         </select>
       </label>
-      <label class="item item-input">
-        <input type="text" placeholder="Descrição (opcional)">
+      <label class="item item-input" ng-show="expensiveTypeSelected == 'Individual'">
+        <div class="input-label">Descrição</div>
+        <input class="text-right" type="text" ng-model="descriptionSelected" placeholder="opcional">
       </label>
     </div>
-   <button class="button button-full button-balanced">Submeter</button>
+    <!-- save data -->
+   <button class="button button-full button-balanced" ng-click="Send()">Enviar</button>
   </ion-content>
- 
 </ion-view>
