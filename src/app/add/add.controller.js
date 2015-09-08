@@ -3,19 +3,25 @@
 angular.module('YaDespesas')
   .controller('AddCtrl', function($scope) {
     //Init
-    $scope.who = ['Zé','Susana'];
+    $scope.userNames = ['Zé', 'Susana'];
     $scope.expensiveTypes = ['Individual', 'Colectiva'];
     // $scope.percentageTypes = ['50-50', '70-30'];
     $scope.descriptions = ['Renda', 'Internet', 'Água', 'Luz', 'Gás', 'Alimentação', 'Casa', 'Lazer', 'Outros'];
 
-    $scope.whoSelected = $scope.who[0];
-    $scope.expensiveTypeSelected = $scope.expensiveTypes[1];
-    // $scope.percentageTypeSelected = $scope.percentageTypes[0];
-    // $scope.descriptionSelected =  $scope.descriptions[1];
+    //display on 1st load
+    $scope.user = {
+      value: null,
+      name: $scope.userNames[0],
+      expensiveType: $scope.expensiveTypes[0],
+      description: null
+    }
 
-    $scope.Send = function() {
-        console.log('Sending Data');
-        // delete $scope.descriptionSelected;
-        $scope.descriptionSelected = 'Luz';
+    $scope.master = angular.copy($scope.user);
+
+    $scope.OnClickSend = function(user) {
+      console.log('Sending Data', user);
+
+      $scope.user.description = null;
+      $scope.user.value = null;
     }
   });

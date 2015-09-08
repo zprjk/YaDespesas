@@ -4,19 +4,19 @@
     <div class="list padding">
       <!-- number -->
       <label class="item item-input">
-        <input type="number" placeholder="Valor">
+        <input type="tel" placeholder="Valor" ng-model="user.value">
       </label>
       <!-- options -->
       <label class="item item-input item-select">
         <div class="input-label">Quem</div>
-        <select ng-model="whoSelected">
-          <option ng-repeat="person in who" ng-selected="whoSelected === person" value="{{person}}">{{person}}</option>
+        <select ng-model="user.name">
+          <option ng-repeat="name in userNames" value="{{name}}">{{name}}</option>
         </select>
       </label>
       <label class="item item-input item-select">
         <div class="input-label">Despesa</div>
-        <select ng-model="expensiveTypeSelected">
-          <option ng-repeat="expType in expensiveTypes" ng-selected="expensiveTypeSelected === expType" value="{{expType}}">{{expType}}</option>
+        <select ng-model="user.expensiveType">
+          <option ng-repeat="expType in expensiveTypes" value="{{expType}}">{{expType}}</option>
         </select>
       </label>
       <!-- <label class="item item-input item-select" ng-show="expensiveTypeSelected === 'Colectiva'">
@@ -25,19 +25,19 @@
           <option ng-repeat="percType in percentageTypes" value="{{percType}}">{{percType}}</option>
         </select>
       </label> -->
-      <label class="item item-input item-select" ng-show="expensiveTypeSelected === 'Colectiva'">
+      <label class="item item-input item-select" ng-show="user.expensiveType === 'Colectiva'">
         <div class="input-label">Descrição</div>
-        <select ng-model="descriptionSelected">
+        <select ng-model="user.description">
           <option value="">-- Selecionar --</option>
           <option ng-repeat="desc in descriptions" value="{{desc}}">{{desc}}</option>
         </select>
       </label>
-      <label class="item item-input" ng-show="expensiveTypeSelected == 'Individual'">
+      <label class="item item-input" ng-show="user.expensiveType == 'Individual'">
         <div class="input-label">Descrição</div>
-        <input class="text-right" type="text" ng-model="descriptionSelected" placeholder="opcional">
+        <input class="text-right" type="text" ng-model="user.description" placeholder="opcional">
       </label>
     </div>
     <!-- save data -->
-   <button class="button button-full button-balanced" ng-click="Send()">Enviar</button>
+   <button class="button button-full button-balanced" ng-click="OnClickSend(user)">Enviar</button>
   </ion-content>
 </ion-view>
