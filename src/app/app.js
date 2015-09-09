@@ -26,6 +26,7 @@ angular.module('YaDespesas', ['ionic'])
 
 //Inject Third Party plugins
 .constant('moment', moment)
+.constant('_', window._)
 
 .config(function($stateProvider, $urlRouterProvider, moment) {
   moment.locale('pt');

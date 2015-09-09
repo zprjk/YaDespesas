@@ -1,6 +1,6 @@
 <ion-view view-title="Adicionar">
   <ion-content>
-    <ion-item class="item item-divider"><b>{{currentData}}</b></ion-item>
+    <ion-item class="item item-divider"><b>{{currentDate}}</b></ion-item>
     <!-- inputs -->
     <div class="list padding">
       <!-- number -->
@@ -30,7 +30,7 @@
         <div class="input-label">Descrição</div>
         <select ng-model="user.description">
           <option value="">-- Selecionar --</option>
-          <option ng-repeat="desc in descriptions" value="{{desc}}">{{desc}}</option>
+          <option ng-repeat="desc in descriptions" value="{{desc.name}}">{{desc.name}}</option>
         </select>
       </label>
       <label class="item item-input" ng-show="user.expensiveType == 'Individual'">
