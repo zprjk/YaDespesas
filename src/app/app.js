@@ -24,8 +24,11 @@ angular.module('YaDespesas', ['ionic'])
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+//Inject Third Party plugins
+.constant('moment', moment)
 
+.config(function($stateProvider, $urlRouterProvider, moment) {
+  moment.locale('pt');
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
