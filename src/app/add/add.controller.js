@@ -16,12 +16,13 @@ angular.module('YaDespesas')
       description: null
     }
 
-    $scope.currentData = moment().format('DD MMMM YYYY').toString();
-
-    $scope.master = angular.copy($scope.user);
+    $scope.currentData = moment().format('D MMMM YYYY');
 
     $scope.OnClickSend = function(user) {
-      console.log('Sending Data', user);
+      var now = moment();
+      console.log('Sending Data: ', user);
+      console.log('Sending Time: ', now.toString());
+      //moment(new Date(now.toString())
 
       $scope.user.description = null;
       $scope.user.value = null;
