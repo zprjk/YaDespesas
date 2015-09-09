@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('YaDespesas')
-  .controller('AddCtrl', function($scope) {
+  .controller('AddCtrl', function($scope, moment) {
     //Init
     $scope.userNames = ['Zé', 'Susana'];
     $scope.expensiveTypes = ['Individual', 'Colectiva'];
@@ -15,6 +15,8 @@ angular.module('YaDespesas')
       expensiveType: $scope.expensiveTypes[0],
       description: null
     }
+
+    $scope.currentData = moment().format('DD MMMM YYYY').toString();
 
     $scope.master = angular.copy($scope.user);
 

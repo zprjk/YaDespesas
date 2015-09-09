@@ -87,4 +87,12 @@ angular.module('YaDespesas')
     };
 
     console.log($scope.data);
+    $scope.colective5050 = $scope.data.expenses.colective['50-50'];
+    $scope.colective7030 = $scope.data.expenses.colective['70-30'];
+
+    $scope.individualZe = $scope.data.expenses.individual['Zé'];
+    $scope.individualSusana = $scope.data.expenses.individual['Susana'];
+
+    $scope.debtsZe = $scope.data.debts['Zé'];
+    $scope.debtsSusana = $scope.data.debts['Susana'];
   });

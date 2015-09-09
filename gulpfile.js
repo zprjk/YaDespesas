@@ -16,6 +16,7 @@ var gulp = require('gulp'),
   connect = require('gulp-connect');
 
 //cli option --target
+//WIP TODO:Mudar para process.env.NODE_ENV
 var target = yargs.target === 'production' ? true : false;
 
 var SRC = 'src';
