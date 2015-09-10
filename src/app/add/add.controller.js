@@ -34,15 +34,15 @@ angular.module('YaDespesas')
         name: 'Outros',
         percentage: '50-50'
       }
-    ]
+    ];
 
-    //display on 1st load
+    //Display on 1st load
     $scope.user = {
       value: null,
       name: $scope.userNames[0],
       expensiveType: $scope.expensiveTypes[0],
       description: null
-    }
+    };
 
     //Display date
     $scope.currentDate = moment().format('D MMMM YYYY');
@@ -59,7 +59,7 @@ angular.module('YaDespesas')
       var percentage = null;
 
       if(user.expensiveType === 'Colectiva') {
-      	percentage = _.find($scope.descriptions, { 'name': user.description}).percentage;
+      	percentage = _.find($scope.descriptions,{'name': user.description}).percentage;
       	console.log(percentage);
       }
 
