@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "YaDespesas: An Ionic project",
   "dependencies": {
+    "body-parser": "^1.13.3",
+    "express": "^4.13.3",
+    "lodash": "^3.10.1"
+  },
+  "devDependencies": {
     "del": "^2.0.1",
     "gulp": "^3.9.0",
     "gulp-angular-filesort": "^1.1.1",
@@ -17,7 +22,6 @@
     "run-sequence": "^1.1.2",
     "yargs": "^3.24.0"
   },
-  "devDependencies": {},
   "cordovaPlugins": [
     "cordova-plugin-device",
     "cordova-plugin-console",
