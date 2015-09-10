@@ -19,16 +19,16 @@ var gulp = require('gulp'),
 //WIP TODO:Mudar para process.env.NODE_ENV
 var target = yargs.target === 'production' ? true : false;
 
-var SRC = 'src';
+var CLIENT_SRC = 'client';
 var DIST = 'www';
 
 //watch paths
 var paths = {
-  js: SRC + '/**/*.js',
-  css: SRC + '/**/*.css',
-  html: SRC + '/**/*.html',
-  image: SRC + '/**/*.{png,jpeg}',
-  bower: SRC + '/bower_components/**/*'
+  js: CLIENT_SRC + '/**/*.js',
+  css: CLIENT_SRC + '/**/*.css',
+  html: CLIENT_SRC + '/**/*.html',
+  image: CLIENT_SRC + '/**/*.{png,jpeg}',
+  bower: CLIENT_SRC + '/bower_components/**/*'
 };
 
 gulp.task('default', function(cb) {
@@ -46,7 +46,7 @@ gulp.task('build', function(cb) {
 
 gulp.task('js', function() {
   return gulp.src([paths.js, '!' + paths.bower], {
-      base: SRC
+      base: CLIENT_SRC
     })
     .pipe(gulpif(target, ngAnnotate()))
     .pipe(gulpif(target, uglify()))
@@ -58,7 +58,7 @@ gulp.task('js:main-bower-files', function() {
   return gulp.src(mainBowerFiles({
       includeDev: true
     }), {
-      base: SRC + '/bower_components'
+      base: CLIENT_SRC + '/bower_components'
     })
     .pipe(gulp.dest(DIST + '/bower_components'))
     .pipe(connect.reload());
@@ -66,7 +66,7 @@ gulp.task('js:main-bower-files', function() {
 
 gulp.task('css', function() {
   return gulp.src([paths.css, '!' + paths.bower], {
-      base: SRC
+      base: CLIENT_SRC
     })
     // .pipe(gulpif(target, minify())) //wtf not working. Why?
     .pipe(gulp.dest(DIST))
@@ -75,7 +75,7 @@ gulp.task('css', function() {
 
 gulp.task('html', function() {
   return gulp.src([paths.html, '!' + paths.bower], {
-      base: SRC
+      base: CLIENT_SRC
     })
     .pipe(gulp.dest(DIST))
     .pipe(connect.reload());
@@ -83,7 +83,7 @@ gulp.task('html', function() {
 
 gulp.task('image', function() {
   return gulp.src([paths.image, '!' + paths.bower], {
-      base: SRC
+      base: CLIENT_SRC
     })
     .pipe(gulp.dest(DIST))
     .pipe(connect.reload());
@@ -91,7 +91,7 @@ gulp.task('image', function() {
 
 gulp.task('other-files', function() {
   return gulp.src(['*.ico'], {
-      cwd: SRC
+      cwd: CLIENT_SRC
     })
     .pipe(gulp.dest(DIST))
     .pipe(connect.reload());
@@ -107,18 +107,18 @@ gulp.task('connect', function() {
 
 //inject js & css
 gulp.task('inject', function() {
-  var target = gulp.src(SRC + '/index.html');
+  var target = gulp.src(CLIENT_SRC + '/index.html');
   var sources = gulp.src([paths.js, paths.css, '!' + paths.bower]).pipe(angularFilesort());
 
   return target.pipe(inject(sources, {
       relative: true
     }))
-    .pipe(gulp.dest(SRC))
+    .pipe(gulp.dest(CLIENT_SRC))
     .pipe(connect.reload());
 });
 
 gulp.task('inject:main-bower-files', function() {
-  var target = gulp.src(SRC + '/index.html');
+  var target = gulp.src(CLIENT_SRC + '/index.html');
   var sources = gulp.src(mainBowerFiles({
     includeDev: true
   }));
@@ -127,7 +127,7 @@ gulp.task('inject:main-bower-files', function() {
       name: 'bower',
       relative: true
     }))
-    .pipe(gulp.dest(SRC))
+    .pipe(gulp.dest(CLIENT_SRC))
     .pipe(connect.reload());
 });
 

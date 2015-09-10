@@ -4,7 +4,7 @@
 node_modules/
 platforms/
 plugins/
-src/bower_components
+client/bower_components
 www/
 tmp/
 .io-config.json

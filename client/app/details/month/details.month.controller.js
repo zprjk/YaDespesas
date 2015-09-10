@@ -18,5 +18,8 @@ angular.module('YaDespesas')
 
         $scope.debtsZe = monthValues.debts['Zé'];
         $scope.debtsSusana = monthValues.debts.Susana;
+
+        $scope.totalZe = 800;
+        $scope.totalSusana = 500;
       });
   });

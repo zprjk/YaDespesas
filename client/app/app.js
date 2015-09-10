@@ -27,9 +27,13 @@ angular.module('YaDespesas', ['ionic'])
 //Inject Third Party plugins
 .constant('moment', moment)
 .constant('_', window._)
+.constant('$ionicLoadingConfig', {
+  template: '<p>Carregando</p><ion-spinner icon="ripple" class="spinner-balanced"></ion-spinner>'
+})
 
 .config(function($stateProvider, $urlRouterProvider, moment) {
   moment.locale('pt');
+  
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.

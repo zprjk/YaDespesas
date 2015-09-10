@@ -1,22 +1,16 @@
 'use strict';
 
 angular.module('YaDespesas')
-  .service('api', function serverData($http, $q) {
+  .service('api', function api($http, $q, $ionicBackdrop, $ionicLoading) {
 
     this.GetYears = function(callback) {
       var cb = callback || angular.noop;
       var deferred = $q.defer();
 
-      // $http.get('/api/years')
-      //   .success(function(years) {
-      //     console.log('data', years);
-
+      // _Get('/api/years')
+      //   .then(function(years) {
       //     deferred.resolve(years);
       //     return cb();
-      //   })
-      //   .error(function(err) {
-      //     console.error('error getting game data ', err);
-      //     deferred.reject(err);
       //   });
 
       //TEMP
@@ -27,7 +21,6 @@ angular.module('YaDespesas')
         return cb();
       }, 0);
 
-
       return deferred.promise;
     }
 
@@ -37,16 +30,10 @@ angular.module('YaDespesas')
 
       console.log('GetMonths: ' + year);
 
-      // $http.get('/api/months/' + year)
-      //   .success(function(months) {
-      //     console.log('data', months);
-
-      //     deferred.resolve(months);
+      // _Get('/api/months/' + year)
+      //   .then(function(years) {
+      //     deferred.resolve(years);
       //     return cb();
-      //   })
-      //   .error(function(err) {
-      //     console.error('error getting game data ', err);
-      //     deferred.reject(err);
       //   });
 
       //TEMP
@@ -57,7 +44,6 @@ angular.module('YaDespesas')
         return cb();
       }, 0);
 
-
       return deferred.promise;
     }
 
@@ -67,16 +53,10 @@ angular.module('YaDespesas')
 
       console.log('GetMonthValues: ' + year, month);
 
-      // $http.get('/api/monthvalues/' + year + '/' + month)
-      //   .success(function(monthValues) {
-      //     console.log('data', monthValues);
-
-      //     deferred.resolve(monthValues);
+      // _Get('/api/monthvalues/' + year + '/' + month)
+      //   .then(function(years) {
+      //     deferred.resolve(years);
       //     return cb();
-      //   })
-      //   .error(function(err) {
-      //     console.error('error getting game data ', err);
-      //     deferred.reject(err);
       //   });
 
       //TEMP
@@ -165,6 +145,30 @@ angular.module('YaDespesas')
         return cb();
       }, 0);
 
+      return deferred.promise;
+    }
+
+    //********* PRIVATE functions **********
+    var _Get = function(url) {
+      var deferred = $q.defer();
+
+      $ionicLoading.show();
+
+      $http.get('/api/years')
+        .success(function(data) {
+          $ionicLoading.hide();
+          console.log(url, data);
+
+          deferred.resolve(data);
+        })
+        .error(function(err) {
+          console.error('error getting game data ', err);
+          $ionicLoading.show({
+            template: '<b class="assertive">ERROR: </b>' + err,
+            // duration: 4000
+          });
+          deferred.reject(err);
+        });
 
       return deferred.promise;
     }
