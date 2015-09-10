@@ -6,7 +6,7 @@ angular.module('YaDespesas')
     $scope.month = moment(new Date($stateParams.month)).format('MMMM');
 
     //Get Data
-    api.GetMonthValues($scope.year, $scope.month)
+    api.GetMonthValues($stateParams.year, $stateParams.month)
       .then(function(monthValues) {
         $scope.monthValues = monthValues;
 

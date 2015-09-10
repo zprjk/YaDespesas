@@ -5,7 +5,7 @@ angular.module('YaDespesas')
     $scope.year = $stateParams.year;
 
     //Get Data
-    api.GetMonths($scope.year)
+    api.GetMonths($stateParams.year)
       .then(function(months) {
         $scope.months = [];
         

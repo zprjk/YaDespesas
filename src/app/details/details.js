@@ -16,7 +16,7 @@ angular.module('YaDespesas')
         url: '/details/:year',
         views: {
           'tab-details': {
-            templateUrl: 'app/details/details.year.html',
+            templateUrl: 'app/details/year/details.year.html',
             controller: 'DetailsYearCtrl'
           }
         }
@@ -25,7 +25,7 @@ angular.module('YaDespesas')
         url: '/details/:year/:month',
         views: {
           'tab-details': {
-            templateUrl: 'app/details/details.month.html',
+            templateUrl: 'app/details/month/details.month.html',
             controller: 'DetailsMonthCtrl'
           }
         }
