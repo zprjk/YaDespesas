@@ -1,7 +1,5 @@
 'use strict';
 
-var _ = require('lodash');
-
 exports.GetModel = function(req, res) {
   var modelId = req.params.id;
   var Model = require('./model')(modelId);

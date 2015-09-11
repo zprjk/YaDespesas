@@ -5,13 +5,14 @@ var gulp = require('gulp'),
   // rename = require('gulp-rename'),
   uglify = require('gulp-uglify'),
   del = require('del'),
-  minify = require('gulp-minify-css'),
+  // minify = require('gulp-minify-css'),
   ngAnnotate = require('gulp-ng-annotate'),
   inject = require('gulp-inject'),
   angularFilesort = require('gulp-angular-filesort'),
   yargs = require('yargs').argv,
   gulpif = require('gulp-if'),
   runSequence = require('run-sequence'),
+  gls = require('gulp-live-server'), // I should use gls or gulp-connect. Not both. TODO
   mainBowerFiles = require('main-bower-files'),
   connect = require('gulp-connect');
 
@@ -20,6 +21,7 @@ var gulp = require('gulp'),
 var target = yargs.target === 'production' ? true : false;
 
 var CLIENT_SRC = 'client';
+var SERVER_SRC = 'server';
 var DIST = 'www';
 
 //watch paths
@@ -141,6 +143,10 @@ gulp.task('clean:build', function() {
 });
 
 gulp.task('watch', function(cb) {
+  //api server
+  var server = gls.new(SERVER_SRC + '/app.js');
+  server.start();  // start server
+
   gulp.watch(paths.html, ['html']);
 
   // gulp.watch(['app/**/*.*!(html,js,css,png,jpeg)', 'assets/**/.*!(html,js,css,png,jpeg)', '*.*!(html,js,css,png,jpeg)'], ['other-files']);
@@ -154,7 +160,6 @@ gulp.task('watch', function(cb) {
       else
         gulp.start('css');
     }
-
     if (event.type === 'added' || event.type === 'deleted') {
       if (event.path.indexOf('.js') !== -1)
         gulp.start(['inject', 'js']);
@@ -170,10 +175,13 @@ gulp.task('watch', function(cb) {
       runSequence('inject:main-bower-files', 'js:main-bower-files');
   });
 
+  gulp.watch(SERVER_SRC + '/**/*.{js,json}', function(file) { //restart apiserver 
+    console.log('Server file ' + file.type + ': ' + file.path);
+    server.start.apply(server)
+  });
+
   cb();
 });
-
-
 
 
 // gulp.task('sass', function(done) {
