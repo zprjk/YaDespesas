@@ -7,4 +7,5 @@ plugins/
 client/bower_components
 www/
 tmp/
+server/data
 .io-config.json
