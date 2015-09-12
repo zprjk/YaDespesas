@@ -33,18 +33,28 @@ var server = require('http').createServer(app);
 // var db = new sqlite3.Database(dbPath);
 
 // db.serialize(function() {
-//   db.run('CREATE TABLE lorem (info TEXT)');
+//   // db.run('CREATE TABLE user (info TEXT)');
 
-//   var stmt = db.prepare('INSERT INTO lorem VALUES (?)');
-//   for (var i = 0; i < 10; i++) {
-//       stmt.run('Ipsum ' + i);
-//   }
-//   stmt.finalize();
+//   // var stmt = db.prepare('INSERT INTO lorem VALUES (?)');
+//   // for (var i = 0; i < 30000; i++) {
+//   //     stmt.run("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sollicitudin pharetra purus. Quisque nisl ligula, gravida ac massa non, tristique rhoncus nisl. Sed fringilla turpis id ante sollicitudin congue sit amet ut enim. Aliquam eu purus et lectus fringilla fringilla eu sit amet dolor. Vestibulum suscipit, quam at cursus lacinia, augue nulla placerat lacus, sit amet iaculis ipsum velit at dolor. Pellentesque ante neque, bibendum ut sem in, dapibus commodo magna. Aenean tellus purus, tempus in lacinia id, dapibus quis ligula. Cras ante felis, commodo in dignissim facilisis, blandit nec justo. Vestibulum at ligula molestie, lacinia ex et, iaculis elit. Quisque accumsan maximus venenatis. Donec scelerisque, odio nec dignissim eleifend, eros nisi sodales nulla, vel pretium lacus nunc nec lectus. Donec pretium enim libero, nec tristique magna tempus luctus. Suspendisse eu nisl at orci imperdiet pharetra at vitae sem. Aenean porta molestie egestas. Donec eu nunc lacus. Vestibulum in neque vel magna pharetra venenatis." + i);
+//   // }
+//   // stmt.finalize();
 
-//   db.each('SELECT rowid AS id, info FROM lorem', function(err, row) {
-//       console.log(row.id + ': ' + row.info);
-//   });
-// });
+//   // db.each('SELECT rowid AS id, info FROM lorem', function(err, row) {
+//   //     // console.log(row.id + ': ' + row.info);
+//   //     i++;
+//   // }, function() {
+//   // 	console.log('end ', i);
+//   // });
+
+// 	console.time('query');
+// 	db.all('SELECT L.info FROM lorem AS L', function(err, rows) {
+// 	      // console.log(row.id + ': ' + row.info);
+// 	      console.log(rows.length);
+// 	      console.timeEnd('query');
+// 	  });
+// 	});
 
 // db.close();
 
