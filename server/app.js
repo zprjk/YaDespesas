@@ -28,18 +28,20 @@ require('./routes')(app);
 var server = require('http').createServer(app);
 
 // var sqlite3 = require('sqlite3').verbose();
-// var dbPath = path.join( __dirname ,'data', 'data.sqlite');
+// var dbPath = path.join( __dirname ,'data', 'test.sqlite');
 
 // var db = new sqlite3.Database(dbPath);
 
 // db.serialize(function() {
 //   // db.run('CREATE TABLE user (info TEXT)');
 
-//   // var stmt = db.prepare('INSERT INTO lorem VALUES (?)');
-//   // for (var i = 0; i < 30000; i++) {
-//   //     stmt.run("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sollicitudin pharetra purus. Quisque nisl ligula, gravida ac massa non, tristique rhoncus nisl. Sed fringilla turpis id ante sollicitudin congue sit amet ut enim. Aliquam eu purus et lectus fringilla fringilla eu sit amet dolor. Vestibulum suscipit, quam at cursus lacinia, augue nulla placerat lacus, sit amet iaculis ipsum velit at dolor. Pellentesque ante neque, bibendum ut sem in, dapibus commodo magna. Aenean tellus purus, tempus in lacinia id, dapibus quis ligula. Cras ante felis, commodo in dignissim facilisis, blandit nec justo. Vestibulum at ligula molestie, lacinia ex et, iaculis elit. Quisque accumsan maximus venenatis. Donec scelerisque, odio nec dignissim eleifend, eros nisi sodales nulla, vel pretium lacus nunc nec lectus. Donec pretium enim libero, nec tristique magna tempus luctus. Suspendisse eu nisl at orci imperdiet pharetra at vitae sem. Aenean porta molestie egestas. Donec eu nunc lacus. Vestibulum in neque vel magna pharetra venenatis." + i);
+//   // var stmt = db.prepare('INSERT INTO Months VALUES id, monthYear');
+//   // for (var i = 0; i < 1; i++) {
+//   //     stmt.run(1, 200);
 //   // }
 //   // stmt.finalize();
+//   db.run('PRAGMA foreign_keys = ON;');
+//   db.run('INSERT INTO Month VALUES (1, 2014)');
 
 //   // db.each('SELECT rowid AS id, info FROM lorem', function(err, row) {
 //   //     // console.log(row.id + ': ' + row.info);
@@ -48,13 +50,15 @@ var server = require('http').createServer(app);
 //   // 	console.log('end ', i);
 //   // });
 
-// 	console.time('query');
-// 	db.all('SELECT L.info FROM lorem AS L', function(err, rows) {
-// 	      // console.log(row.id + ': ' + row.info);
-// 	      console.log(rows.length);
-// 	      console.timeEnd('query');
-// 	  });
-// 	});
+// 	// console.time('query');
+// 	// db.all('SELECT L.info FROM lorem AS L', function(err, rows) {
+// 	//       // console.log(row.id + ': ' + row.info);
+// 	//       console.log(rows.length);
+// 	//       console.timeEnd('query');
+// 	//   });
+// 	// });
+
+// });
 
 // db.close();
 
