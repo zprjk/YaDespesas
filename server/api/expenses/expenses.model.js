@@ -7,7 +7,7 @@ var path = require('path'),
 var dbPath = path.join(__dirname, '..', '..', 'data', 'test.sqlite');
 
 exports.add = function(user) {
-  console.log('api/add data:', user);
+  console.log('api/expenses/add data:', user);
 
   var date = moment(new Date(user.date));
   var month = date.month();

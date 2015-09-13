@@ -170,7 +170,7 @@ angular.module('YaDespesas')
 
       $ionicLoading.show();
 
-      $http.get('/api/years')
+      $http.get(url)
         .success(function(data) {
           $ionicLoading.hide();
           console.log(url, data);
