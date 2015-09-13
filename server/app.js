@@ -9,7 +9,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 var express = require('express');
 var bodyParser = require('body-parser');
 // var methodOverride = require('method-override');
-var path = require('path');
+// var path = require('path');
 
 var app = express();
 app.set('view engine', 'html');
@@ -21,6 +21,11 @@ app.use(bodyParser.json());
 // app.use(express.static(path.join(config.root, '.tmp')));
 // app.use(express.static(path.join(config.root, 'client')));
 // app.set('appPath', path.join(config.root, 'client'));
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
 
 //Set Routes
 require('./routes')(app);

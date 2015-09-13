@@ -31,8 +31,16 @@ angular.module('YaDespesas', ['ionic'])
   template: '<p>Carregando</p><ion-spinner icon="ripple" class="spinner-balanced"></ion-spinner>'
 })
 
-.config(function($stateProvider, $urlRouterProvider, moment) {
+.config(function($stateProvider, $urlRouterProvider, $httpProvider, moment) {
+  //momentjs set default language
   moment.locale('pt');
+
+  //CORS
+  // $httpProvider.defaults.useXDomain = true;
+  // $httpProvider.defaults.withCredentials = true;
+  // delete $httpProvider.defaults.headers.common['X-Requested-With'];
+  // $httpProvider.defaults.headers.common['Accept'] = 'application/json';
+  // $httpProvider.defaults.headers.common['Content-Type'] = 'application/json';
   
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router

@@ -2,6 +2,22 @@
 
 angular.module('YaDespesas')
   .service('api', function api($http, $q, $ionicBackdrop, $ionicLoading) {
+    var baseEndpoint = 'http://localhost:3000/api'
+
+    this.Add = function(data, callback) {
+      var cb = callback || angular.noop;
+      var deferred = $q.defer();
+
+      $http.post(baseEndpoint + '/expenses/add', data)
+        .success(function() {
+          deferred.resolve();
+        })
+        .error(function(err) {
+          deferred.reject(err);
+        })
+
+      return deferred.promise;
+    }
 
     this.GetYears = function(callback) {
       var cb = callback || angular.noop;

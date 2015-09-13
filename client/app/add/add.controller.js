@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('YaDespesas')
-  .controller('AddCtrl', function($scope, moment, _) {
+  .controller('AddCtrl', function($scope, moment, _, api) {
     //Init
     $scope.userNames = ['Zé', 'Susana'];
     $scope.expensiveTypes = ['Individual', 'Colectiva'];
@@ -52,18 +52,23 @@ angular.module('YaDespesas')
     		return;
     	}
 
-      var now = moment();
-      console.log('Sending Data: ', user);
-      console.log('Sending Time: ', now.toString());
-      //moment(new Date(now.toString())
-      var percentage = null;
+      var now = moment(); //moment(new Date(now.toString())
+      var percentage = 100;
 
       if(user.expensiveType === 'Colectiva') {
       	percentage = _.find($scope.descriptions,{'name': user.description}).percentage;
       	console.log(percentage);
       }
 
-      $scope.user.description = null;
-      $scope.user.value = null;
+      var output = _.clone(user);
+      output.percentage = percentage;
+      output.date = now;
+
+      console.log('Sending Data: ', output);
+
+      api.Add(output).then(function (err) {
+        $scope.user.description = null;
+        $scope.user.value = null;
+      });
     }
   });

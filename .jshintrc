@@ -21,7 +21,6 @@
     "angular": "angular",
     "cordova": "cordova",
     "StatusBar": "StatusBar",
-    "moment": "moment",
     "_": "lodash"
   }
 }
