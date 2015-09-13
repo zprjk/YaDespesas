@@ -41,7 +41,8 @@ var server = require('http').createServer(app);
 //   // }
 //   // stmt.finalize();
 //   db.run('PRAGMA foreign_keys = ON;');
-//   db.run('INSERT INTO Month VALUES (1, 2014)');
+//   // db.run('INSERT INTO Month VALUES (1, 2014)');
+//   // db.run('INSERT INTO Expense Values(null,1,2015,1,1,750)')
 
 //   // db.each('SELECT rowid AS id, info FROM lorem', function(err, row) {
 //   //     // console.log(row.id + ': ' + row.info);
