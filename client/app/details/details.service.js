@@ -23,19 +23,13 @@ angular.module('YaDespesas')
       var cb = callback || angular.noop;
       var deferred = $q.defer();
 
-      // _Get('/api/years')
-      //   .then(function(years) {
-      //     deferred.resolve(years);
-      //     return cb();
-      //   });
+      _Get(baseEndpoint + '/expenses')
+        .then(function(years) {
+          console.log('Years', years);
 
-      //TEMP
-      setTimeout(function() {
-        var years = [2015, 2014, 2013];
-
-        deferred.resolve(years);
-        return cb();
-      }, 0);
+          deferred.resolve(years);
+          return cb();
+        });
 
       return deferred.promise;
     }

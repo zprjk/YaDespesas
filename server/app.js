@@ -8,6 +8,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 var express = require('express');
 var bodyParser = require('body-parser');
+var morgan = require('morgan');
 // var methodOverride = require('method-override');
 // var path = require('path');
 
@@ -15,6 +16,7 @@ var app = express();
 app.set('view engine', 'html');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+app.use(morgan('dev'));
 // app.set('views', config.root + '/server/views');
 // app.engine('html', require('ejs').renderFile);
 // app.set('appPath', path.join(config.root, 'client'));
