@@ -29,8 +29,26 @@ exports.Add = function(user, cb) {
     $description: user.description,
     $date: user.date
   }, function(err) {
+    // if (err) {
+    //   db.close();
+    //   return cb(err); //null if no error
+    // }
+
     db.close();
     return cb(err); //null if no error
+
+    // if (user.expensiveType === 'Colectivo') {
+    //   //Update Debt values
+    //   db.all('SELECT user.name, debt.value FROM Debt as debt,User as user WHERE user.id=debt.user_id',
+    //     function(err, rows) {
+    //       var username = user.name;
+    //       var value = user.value;
+    //       var percentage = user.percentage('-');
+    //     });
+    // } else {
+    //   db.close();
+    //   return cb(err);
+    // }
   });
 }
 
@@ -58,12 +76,12 @@ exports.GetMonthValues = function(year, month, cb) {
   var db = new sqlite3.Database(dbPath);
   db.run('PRAGMA foreign_keys = ON;');
 
-  var query	= 'SELECT user.name as username, expenseType.name as percentage, value, description, date ';
-  query		 += 'FROM Expense AS expense, User AS user, ExpensiveType AS expenseType ';
-  query 	 += 'WHERE user.id=expense.user_id ';
-  query 	 += 'AND expense.expenseType_id=expenseType.id ';
-  query 	 += 'AND expense.year_id=? ';
-  query		 += 'AND expense.month_id=? ';
+  var query = 'SELECT user.name as username, expenseType.name as percentage, value, description, date ';
+  query += 'FROM Expense AS expense, User AS user, ExpensiveType AS expenseType ';
+  query += 'WHERE user.id=expense.user_id ';
+  query += 'AND expense.expenseType_id=expenseType.id ';
+  query += 'AND expense.year_id=? ';
+  query += 'AND expense.month_id=? ';
 
   db.all(query, year, month, function(err, rows) {
     db.close();
