@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('YaDespesas')
-  .controller('AddCtrl', function($scope, moment, _, api) {
+  .controller('AddCtrl', function($scope, moment, _, api, users) {
     //Init
-    $scope.userNames = ['Zé', 'Susana'];
+    $scope.userNames = users;
     $scope.expensiveTypes = ['Individual', 'Colectiva'];
     $scope.descriptions = [ //only shown for colective expensive type
       {
@@ -66,7 +66,7 @@ angular.module('YaDespesas')
 
       console.log('Sending Data: ', output);
 
-      api.Add(output).then(function (err) {
+      api.Add(output).then(function() {
         $scope.user.description = null;
         $scope.user.value = null;
       });

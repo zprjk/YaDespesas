@@ -27,6 +27,7 @@ angular.module('YaDespesas', ['ionic'])
 //Inject Third Party plugins
 .constant('moment', moment)
 .constant('_', window._)
+.constant('users', ['Zé','Susana']) //ordem interessa para as contas colectivas eg '70-30'
 .constant('$ionicLoadingConfig', {
   template: '<p>Carregando</p><ion-spinner icon="ripple" class="spinner-balanced"></ion-spinner>'
 })

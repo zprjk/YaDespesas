@@ -38,7 +38,7 @@ exports.GetYears = function(cb) {
   var db = new sqlite3.Database(dbPath);
   db.run('PRAGMA foreign_keys = ON;');
 
-  db.all('SELECT id FROM year', function(err, rows) {
+  db.all('SELECT id FROM Year', function(err, rows) {
     db.close();
     return cb(err, rows);
   });

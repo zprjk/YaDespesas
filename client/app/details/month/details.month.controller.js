@@ -1,37 +1,47 @@
 'use strict';
 
 angular.module('YaDespesas')
-  .controller('DetailsMonthCtrl', function($scope, $stateParams, api, moment, _) {
+  .controller('DetailsMonthCtrl', function($scope, $stateParams, api, moment, _, users) {
     $scope.year = $stateParams.year;
-    $scope.month = moment(new Date($stateParams.month)).format('MMMM');
+    $scope.month = moment(new Date($stateParams.year, $stateParams.month)).format('MMMM');
 
     //Get Data
     api.GetMonthValues($stateParams.year, $stateParams.month)
       .then(function(monthValues) {
-
         var colective = [];
         var individual = [];
         var totals = [];
 
+        //init
+        totals = _.map(users, function(user) {
+          return {
+            username: user,
+            total: 0
+          }
+        });
+
+        individual = _.map(users, function(user) {
+          return {
+            username: user,
+            total: 0,
+            entries: []
+          }
+        });
+
+        colective = _.chain(monthValues).pluck('percentage').uniq()
+          .map(function(perc) {
+            if (perc === '100')
+              return null;
+            return {
+              percentage: perc,
+              total: 0,
+              entries: []
+            }
+          }).compact().value();
+
+        //fill data
         _.forEach(monthValues, function(mv) {
           if (mv.percentage === '100') {
-            var userExists = _.find(individual, {
-              'username': mv.username
-            });
-
-            if (!userExists) {
-              individual.push({
-                username: mv.username,
-                total: 0,
-                entries: []
-              });
-
-              totals.push({
-                username: mv.username,
-                total: 0
-              });
-            }
-
             var user = _.find(individual, {
               'username': mv.username
             });
@@ -47,18 +57,6 @@ angular.module('YaDespesas')
             return;
           }
 
-          var percentageExists = _.find(colective, {
-            'percentage': mv.percentage
-          });
-
-          if (!percentageExists) {
-            colective.push({
-              percentage: mv.percentage,
-              total: 0,
-              entries: []
-            });
-          }
-
           var colectiveType = _.find(colective, {
             'percentage': mv.percentage
           });
@@ -72,46 +70,32 @@ angular.module('YaDespesas')
           colectiveType.total += mv.value;
         });
 
-        //TODO hardwire - FIX THIS
+        var he = _.find(totals, {
+          'username': users[0]
+        });
+
+        var she = _.find(totals, {
+          'username': users[1]
+        });
+
         _.forEach(colective, function(colType) {
           var percentage = colType.percentage.split('-'); //% "HE-SHE" -> "70-30"
 
-          var he = _.find(totals, {
-            'username': 'Zé'
-          });
-
-          var she = _.find(totals, {
-            'username': 'Susana'
-          });
-
-          if (he)
-            he.total += colType.total * (percentage[0] / 100);
-
-          if (she)
-            she.total += colType.total * (percentage[1] / 100);
+          he.total += colType.total * (percentage[0] / 100);
+          she.total += colType.total * (percentage[1] / 100);
         });
 
-        //TODO hardwire - FIX THIS - BUG - EU PRECISO DE IR BUSCAR AS USERS Á DB 
-        //TODO hardwire - FIX THIS - BUG - EU PRECISO DE IR BUSCAR AS USERS Á DB 
         _.forEach(individual, function(user) {
-          var he = _.find(totals, {
-            'username': 'Zé'
-          });
-
-          var she = _.find(totals, {
-            'username': 'Susana'
-          });
-
-          if (user.username === 'Zé' && he)
+          if (user.username === he.username)
             he.total += user.total;
 
-          if (user.username === 'Susana' && she)
+          if (user.username === she.username)
             she.total += user.total;
         });
 
-        console.log('colective', colective);
-        console.log('individual', individual);
-        console.log('totals', totals);
+        // console.log('colective', colective);
+        // console.log('individual', individual);
+        // console.log('totals', totals);
 
         $scope.colective = colective;
         $scope.individual = individual;

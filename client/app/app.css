@@ -1,1 +1,4 @@
 /* Empty. Add your own CSS if you like */
+.item-complex .item-content {
+	padding: 16px 16px 16px 16px;
+}

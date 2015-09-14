@@ -8,12 +8,10 @@ angular.module('YaDespesas')
       var cb = callback || angular.noop;
       var deferred = $q.defer();
 
-      $http.post(baseEndpoint + '/expenses/add', data)
-        .success(function() {
+      _Post(baseEndpoint + '/expenses/add', data)
+        .then(function() {
           deferred.resolve();
-        })
-        .error(function(err) {
-          deferred.reject(err);
+          return cb();
         })
 
       return deferred.promise;
@@ -39,7 +37,7 @@ angular.module('YaDespesas')
 
       _Get(baseEndpoint + '/expenses/' + year)
         .then(function(months) {
-          
+
           deferred.resolve(months);
           return cb();
         });
@@ -53,102 +51,30 @@ angular.module('YaDespesas')
 
       _Get(baseEndpoint + '/expenses/' + year + '/' + month)
         .then(function(months) {
-          
+
           deferred.resolve(months);
           return cb();
         });
 
-      //TEMP
-      // setTimeout(function() {
-      //   var monthValues = {
-      //     "year": 2015,
-      //     "month": 1,
-      //     "expenses": {
-      //       "colective": {
-      //         "50-50": {
-      //           "entries": [{
-      //             "id": 1,
-      //             "value": 5.96,
-      //             "description": "Alimentação",
-      //             "date": "momentjs"
-      //           }, {
-      //             "id": 2,
-      //             "value": 10.96,
-      //             "description": "Alimentação"
-      //           }, {
-      //             "id": 3,
-      //             "value": 15.32,
-      //             "description": "Lazer"
-      //           }],
-      //           "total": 300
-      //         },
-      //         "70-30": {
-      //           "entries": [{
-      //             "id": 1,
-      //             "value": 550,
-      //             "description": "Renda"
-      //           }, {
-      //             "id": 2,
-      //             "value": 28.39,
-      //             "description": "Água"
-      //           }, {
-      //             "id": 3,
-      //             "value": 16.92,
-      //             "description": "Luz"
-      //           }],
-      //           "total": 100
-      //         }
-      //       },
-      //       "individual": {
-      //         "Zé": {
-      //           "entries": [{
-      //             "id": 1,
-      //             "value": 5,
-      //             "description": ""
-      //           }, {
-      //             "id": 2,
-      //             "value": 2.39,
-      //             "description": "lazer"
-      //           }, {
-      //             "id": 3,
-      //             "value": 1.92,
-      //             "description": ""
-      //           }],
-      //           "total": 200
-      //         },
-      //         "Susana": {
-      //           "entries": [{
-      //             "id": 1,
-      //             "value": 2,
-      //             "description": ""
-      //           }, {
-      //             "id": 2,
-      //             "value": 9.99,
-      //             "description": ""
-      //           }, {
-      //             "id": 3,
-      //             "value": 11.2,
-      //             "description": "roupa"
-      //           }],
-      //           "total": 100
-      //         }
-      //       }
-      //     },
-      //     "debts": {
-      //       "Zé": 0,
-      //       "Susana": 150
-      //     }
-      //   };
+      return deferred.promise;
+    }
 
-      //   deferred.resolve(monthValues);
-      //   return cb();
-      // }, 0);
+    this.GetUsers = function(callback) {
+      var cb = callback || angular.noop;
+      var deferred = $q.defer();
+
+      _Get(baseEndpoint + '/users')
+        .then(function(users) {
+
+          deferred.resolve(users);
+          return cb();
+        });
 
       return deferred.promise;
     }
 
-    var _Get = function(url) {
     //********* PRIVATE functions **********
+    var _Get = function(url) {
       var deferred = $q.defer();
 
       $ionicLoading.show();
@@ -161,7 +87,31 @@ angular.module('YaDespesas')
           deferred.resolve(data);
         })
         .error(function(err) {
-          console.error('error getting game data ', err);
+          console.error('ERROR getting data ', err);
+          $ionicLoading.show({
+            template: '<b class="assertive">ERROR: </b>' + err,
+            // duration: 4000
+          });
+          deferred.reject(err);
+        });
+
+      return deferred.promise;
+    }
+
+    var _Post = function(url, data) {
+      var deferred = $q.defer();
+
+      $ionicLoading.show();
+
+      $http.post(url, data)
+        .success(function() {
+          $ionicLoading.hide();
+          console.log('POST', url, data);
+
+          deferred.resolve();
+        })
+        .error(function(err) {
+          console.error('ERROR saving data ', err);
           $ionicLoading.show({
             template: '<b class="assertive">ERROR: </b>' + err,
             // duration: 4000
