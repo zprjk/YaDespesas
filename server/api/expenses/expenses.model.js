@@ -7,7 +7,7 @@ var path = require('path'),
 var dbPath = path.join(__dirname, '..', '..', 'data', 'test.sqlite');
 
 exports.Add = function(user, cb) {
-  console.log('api/expenses/add data:', user);
+  console.log(user);
 
   var date = moment(new Date(user.date));
   var month = date.month();
@@ -32,9 +32,6 @@ exports.Add = function(user, cb) {
     db.close();
     return cb(err); //null if no error
   });
-
-  // db.close();
-  // return cb();
 }
 
 exports.GetYears = function(cb) {
@@ -45,26 +42,33 @@ exports.GetYears = function(cb) {
     db.close();
     return cb(err, rows);
   });
-
-  // db.close();
 }
 
-exports.GetMonths = function(user) {
-  // console.log('api/expenses/add data:', user);
+exports.GetMonths = function(year, cb) {
+  var db = new sqlite3.Database(dbPath);
+  db.run('PRAGMA foreign_keys = ON;');
 
-  // var date = moment(new Date(user.date));
-  // var month = date.month();
-  // var year = date.year();
+  db.all('SELECT id FROM Month WHERE year_id=?', year, function(err, rows) {
+    db.close();
+    return cb(err, rows);
+  });
+}
 
-  // var db = new sqlite3.Database(dbPath);
-  // db.run('PRAGMA foreign_keys = ON;');
+exports.GetMonthValues = function(year, month, cb) {
+  var db = new sqlite3.Database(dbPath);
+  db.run('PRAGMA foreign_keys = ON;');
 
-  // db.run('INSERT OR IGNORE INTO Year VALUES (?)', year);
-  // db.run('INSERT OR IGNORE INTO Month VALUES (?, ?)', month, year);
+  var query	= 'SELECT user.name as username, expenseType.name as percentage, value, description, date ';
+  query		 += 'FROM Expense AS expense, User AS user, ExpensiveType AS expenseType ';
+  query 	 += 'WHERE user.id=expense.user_id ';
+  query 	 += 'AND expense.expenseType_id=expenseType.id ';
+  query 	 += 'AND expense.year_id=? ';
+  query		 += 'AND expense.month_id=? ';
 
-  // db.all('SELECT id FROM year';
-
-  // db.close();
+  db.all(query, year, month, function(err, rows) {
+    db.close();
+    return cb(err, rows);
+  });
 }
 
 // function Initdb() {

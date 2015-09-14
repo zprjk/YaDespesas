@@ -9,11 +9,10 @@ angular.module('YaDespesas')
       .then(function(months) {
         $scope.months = [];
         
-        $scope.months = _.map(months, function(monthId) {
-        	var monthName = moment(new Date(monthId)).format('MMMM');
-
+        $scope.months = _.map(months, function(month) {
+        	var monthName = moment(new Date($scope.year, month.id)).format('MMMM');
         	return {
-        		id: monthId,
+        		id: month.id,
         		name: monthName
         	}
         });

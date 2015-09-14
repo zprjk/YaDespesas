@@ -17,7 +17,6 @@ exports.Add = function(req, res) {
   });
 };
 
-
 exports.GetYears = function(req, res) {
   model.GetYears(function(err, years){
   	if(err)
@@ -28,12 +27,24 @@ exports.GetYears = function(req, res) {
 };
 
 exports.GetMonths = function(req, res) {
-  // var year = req.param.year;
+  var year = req.params.year;
 
-  // model.GetMonths(userData, function(err){
-  // 	if(err)
-  // 		handleError(res, err);
+  model.GetMonths(year, function(err, months){
+  	if(err)
+  		handleError(res, err);
 
-  // 	return res.status(200).json();
-  // });
+  	return res.status(200).json(months);
+  });
+};
+
+exports.GetMonthValues = function(req, res) {
+  var year = req.params.year;
+  var month = req.params.month;
+  
+  model.GetMonthValues(year, month, function(err, values){
+  	if(err)
+  		handleError(res, err);
+
+  	return res.status(200).json(values);
+  });
 };

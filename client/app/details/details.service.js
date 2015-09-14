@@ -25,7 +25,6 @@ angular.module('YaDespesas')
 
       _Get(baseEndpoint + '/expenses')
         .then(function(years) {
-          console.log('Years', years);
 
           deferred.resolve(years);
           return cb();
@@ -38,21 +37,12 @@ angular.module('YaDespesas')
       var cb = callback || angular.noop;
       var deferred = $q.defer();
 
-      console.log('GetMonths: ' + year);
-
-      // _Get('/api/months/' + year)
-      //   .then(function(years) {
-      //     deferred.resolve(years);
-      //     return cb();
-      //   });
-
-      //TEMP
-      setTimeout(function() {
-        var months = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-
-        deferred.resolve(months);
-        return cb();
-      }, 0);
+      _Get(baseEndpoint + '/expenses/' + year)
+        .then(function(months) {
+          
+          deferred.resolve(months);
+          return cb();
+        });
 
       return deferred.promise;
     }
@@ -61,105 +51,104 @@ angular.module('YaDespesas')
       var cb = callback || angular.noop;
       var deferred = $q.defer();
 
-      console.log('GetMonthValues: ' + year, month);
-
-      // _Get('/api/monthvalues/' + year + '/' + month)
-      //   .then(function(years) {
-      //     deferred.resolve(years);
-      //     return cb();
-      //   });
+      _Get(baseEndpoint + '/expenses/' + year + '/' + month)
+        .then(function(months) {
+          
+          deferred.resolve(months);
+          return cb();
+        });
 
       //TEMP
-      setTimeout(function() {
-        var monthValues = {
-          "year": 2015,
-          "month": 1,
-          "expenses": {
-            "colective": {
-              "50-50": {
-                "entries": [{
-                  "id": 1,
-                  "value": 5.96,
-                  "description": "Alimentação",
-                  "date": "momentjs"
-                }, {
-                  "id": 2,
-                  "value": 10.96,
-                  "description": "Alimentação"
-                }, {
-                  "id": 3,
-                  "value": 15.32,
-                  "description": "Lazer"
-                }],
-                "total": 300
-              },
-              "70-30": {
-                "entries": [{
-                  "id": 1,
-                  "value": 550,
-                  "description": "Renda"
-                }, {
-                  "id": 2,
-                  "value": 28.39,
-                  "description": "Água"
-                }, {
-                  "id": 3,
-                  "value": 16.92,
-                  "description": "Luz"
-                }],
-                "total": 100
-              }
-            },
-            "individual": {
-              "Zé": {
-                "entries": [{
-                  "id": 1,
-                  "value": 5,
-                  "description": ""
-                }, {
-                  "id": 2,
-                  "value": 2.39,
-                  "description": "lazer"
-                }, {
-                  "id": 3,
-                  "value": 1.92,
-                  "description": ""
-                }],
-                "total": 200
-              },
-              "Susana": {
-                "entries": [{
-                  "id": 1,
-                  "value": 2,
-                  "description": ""
-                }, {
-                  "id": 2,
-                  "value": 9.99,
-                  "description": ""
-                }, {
-                  "id": 3,
-                  "value": 11.2,
-                  "description": "roupa"
-                }],
-                "total": 100
-              }
-            }
-          },
-          "debts": {
-            "Zé": 0,
-            "Susana": 150
-          }
-        };
+      // setTimeout(function() {
+      //   var monthValues = {
+      //     "year": 2015,
+      //     "month": 1,
+      //     "expenses": {
+      //       "colective": {
+      //         "50-50": {
+      //           "entries": [{
+      //             "id": 1,
+      //             "value": 5.96,
+      //             "description": "Alimentação",
+      //             "date": "momentjs"
+      //           }, {
+      //             "id": 2,
+      //             "value": 10.96,
+      //             "description": "Alimentação"
+      //           }, {
+      //             "id": 3,
+      //             "value": 15.32,
+      //             "description": "Lazer"
+      //           }],
+      //           "total": 300
+      //         },
+      //         "70-30": {
+      //           "entries": [{
+      //             "id": 1,
+      //             "value": 550,
+      //             "description": "Renda"
+      //           }, {
+      //             "id": 2,
+      //             "value": 28.39,
+      //             "description": "Água"
+      //           }, {
+      //             "id": 3,
+      //             "value": 16.92,
+      //             "description": "Luz"
+      //           }],
+      //           "total": 100
+      //         }
+      //       },
+      //       "individual": {
+      //         "Zé": {
+      //           "entries": [{
+      //             "id": 1,
+      //             "value": 5,
+      //             "description": ""
+      //           }, {
+      //             "id": 2,
+      //             "value": 2.39,
+      //             "description": "lazer"
+      //           }, {
+      //             "id": 3,
+      //             "value": 1.92,
+      //             "description": ""
+      //           }],
+      //           "total": 200
+      //         },
+      //         "Susana": {
+      //           "entries": [{
+      //             "id": 1,
+      //             "value": 2,
+      //             "description": ""
+      //           }, {
+      //             "id": 2,
+      //             "value": 9.99,
+      //             "description": ""
+      //           }, {
+      //             "id": 3,
+      //             "value": 11.2,
+      //             "description": "roupa"
+      //           }],
+      //           "total": 100
+      //         }
+      //       }
+      //     },
+      //     "debts": {
+      //       "Zé": 0,
+      //       "Susana": 150
+      //     }
+      //   };
 
-        deferred.resolve(monthValues);
-        return cb();
-      }, 0);
+      //   deferred.resolve(monthValues);
+      //   return cb();
+      // }, 0);
 
       return deferred.promise;
     }
 
-    //********* PRIVATE functions **********
     var _Get = function(url) {
+    //********* PRIVATE functions **********
       var deferred = $q.defer();
 
       $ionicLoading.show();
@@ -167,7 +156,7 @@ angular.module('YaDespesas')
       $http.get(url)
         .success(function(data) {
           $ionicLoading.hide();
-          console.log(url, data);
+          console.log('GET', url, data);
 
           deferred.resolve(data);
         })

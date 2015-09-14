@@ -2,60 +2,43 @@
   <ion-content>
     <ion-list>
     	<ion-item class="item item-divider"><b>{{year}} - {{month}}</b></ion-item>
-
-  		<!-- Colective Data -->
+      
+      <!-- Colective Data -->
       <ion-item class="item item-divider item-balanced">Colectivo</ion-item>
-      <!-- 50-50 Data -->
-      <ion-item class="item item-divider">50-50
-      	<span class="badge badge-balanced">Total: {{colective5050.total}}</span>
-      </ion-item>
-      <!-- <ion-item class="item item-divider text-center">Entradas</ion-item> -->
-      <ion-item ng-repeat="entry in colective5050.entries">
-      	{{entry.value}}
-      	<span class="item-note">{{entry.description}}</span>
-      </ion-item>
-
-      <!-- 70-30 Data -->
-      <ion-item class="item item-divider">70-30
-      	<span class="badge badge-balanced">Total: {{colective7030.total}}</span>
-      </ion-item>
-      <!-- <ion-item class="item item-divider text-center">Entradas</ion-item> -->
-      <ion-item ng-repeat="entry in colective7030.entries">
-      	{{entry.value}}
-      	<span class="item-note">{{entry.description}}</span>
-      </ion-item>
-
-  		<!-- Individual Data -->
+      
+      <div ng-repeat="colType in colective">
+        <ion-item class="item item-divider">{{colType.percentage}}
+          <span class="badge badge-balanced">Total: {{colType.total}}</span>
+        </ion-item>
+        <ion-item ng-repeat="entry in colType.entries">
+          {{entry.value}}
+          <span class="item-note">{{entry.description}}</span>
+          <ion-option-button class="button-balanced">Dia {{entry.date}}</ion-option-button>
+        </ion-item>
+      </div>
+  		
+      <!-- Individual Data -->
       <ion-item class="item item-divider item-balanced">Individual</ion-item>
-      <!-- 50-50 Data -->
-      <ion-item class="item item-divider">Zé
-      	<span class="badge badge-balanced">Total: {{individualZe.total}}</span>
-      </ion-item>
-      <!-- <ion-item class="item item-divider text-center">Entradas</ion-item> -->
-      <ion-item ng-repeat="entry in individualZe.entries">
-      	{{entry.value}}
-      	<span class="item-note">{{entry.description}}</span>
-      </ion-item>
+        
+      <div ng-repeat="indType in individual">
+        <ion-item class="item item-divider">{{indType.username}}
+          <span class="badge badge-balanced">Total: {{indType.total}}</span>
+        </ion-item>
+        <ion-item ng-repeat="entry in indType.entries">
+          {{entry.value}}
+          <span class="item-note">{{entry.description}}</span>
+          <ion-option-button class="button-balanced">Dia {{entry.date}}</ion-option-button>
+        </ion-item>
+      </div>
 
-      <!-- 70-30 Data -->
-      <ion-item class="item item-divider">Susana
-      	<span class="badge badge-balanced">Total: {{individualSusana.total}}</span>
-      </ion-item>
-      <!-- <ion-item class="item item-divider text-center">Entradas</ion-item> -->
-      <ion-item ng-repeat="entry in individualSusana.entries">
-      	{{entry.value}}
-      	<span class="item-note">{{entry.description}}</span>
-      </ion-item>
-
-      <!-- Debt Data -->
+      <!-- Total Data -->
       <ion-item class="item item-divider item-balanced">Total</ion-item>
-      <ion-item class="item item-divider">Zé {{totalZe}}</ion-item>
-      <ion-item class="item item-divider">Susana {{totalSusana}}</ion-item>
+      <ion-item class="item item-divider" ng-repeat="user in totals">{{user.username}}: {{user.total}}</ion-item>
 
       <!-- Debt Data -->
-      <ion-item class="item item-divider item-balanced">Débitos</ion-item>
+      <!-- <ion-item class="item item-divider item-balanced">Débitos</ion-item>
       <ion-item class="item item-divider">Zé {{debtsZe}}</ion-item>
-      <ion-item class="item item-divider">Susana {{debtsSusana}}</ion-item>
+      <ion-item class="item item-divider">Susana {{debtsSusana}}</ion-item> -->
 
     </ion-list>
   </ion-content>
