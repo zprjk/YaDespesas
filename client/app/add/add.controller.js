@@ -47,7 +47,7 @@ angular.module('YaDespesas')
     //Display date
     $scope.currentDate = moment().format('D MMMM YYYY');
 
-    $scope.OnClickSend = function(user) {
+    $scope.ClickSend = function(user) {
     	if(user.expensiveType === 'Colectiva' && user.description === null) {
     		return;
     	}
@@ -57,14 +57,14 @@ angular.module('YaDespesas')
 
       if(user.expensiveType === 'Colectiva') {
       	percentage = _.find($scope.descriptions,{'name': user.description}).percentage;
-      	console.log(percentage);
+      	// console.log(percentage);
       }
 
       var output = _.clone(user);
       output.percentage = percentage;
       output.date = now;
 
-      console.log('Sending Data: ', output);
+      // console.log('Sending Data: ', output);
 
       api.Add(output).then(function() {
         $scope.user.description = null;

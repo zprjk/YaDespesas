@@ -49,7 +49,7 @@ angular.module('YaDespesas')
             user.entries.push({
               value: mv.value,
               description: mv.description,
-              date: moment(new Date(mv.date)).format('D - HH:MM')
+              date: moment(new Date(mv.date)).format('(YYYY M) D - HH:MM')
             });
 
             user.total += mv.value;
@@ -64,7 +64,7 @@ angular.module('YaDespesas')
           colectiveType.entries.push({
             value: mv.value,
             description: mv.description,
-            date: moment(new Date(mv.date)).format('D - HH:MM')
+            date: moment(new Date(mv.date)).format('(YYYY M) D - HH:MM')
           });
 
           colectiveType.total += mv.value;

@@ -13,7 +13,7 @@
         <ion-item ng-repeat="entry in colType.entries">
           {{entry.value}}
           <span class="item-note">{{entry.description}}</span>
-          <ion-option-button class="button-balanced">Dia {{entry.date}}</ion-option-button>
+          <ion-option-button class="button-balanced">{{entry.date}}</ion-option-button>
         </ion-item>
       </div>
   		
@@ -27,7 +27,7 @@
         <ion-item ng-repeat="entry in user.entries">
           {{entry.value}}
           <span class="item-note">{{entry.description}}</span>
-          <ion-option-button class="button-balanced">Dia {{entry.date}}</ion-option-button>
+          <ion-option-button class="button-balanced">{{entry.date}}</ion-option-button>
         </ion-item>
       </div>
 
@@ -35,7 +35,7 @@
       <ion-item class="item item-divider item-balanced">Total</ion-item>
       <ion-item class="item item-divider" ng-repeat="user in totals">
       {{user.username}}
-      <span style="float:right"><b>{{user.total}}</b></span>
+      <span style="float:right"><b>{{user.total | number:2}}</b></span>
       </ion-item>
 
       <!-- Debt Data -->

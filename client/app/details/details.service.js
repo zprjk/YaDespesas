@@ -87,9 +87,13 @@ angular.module('YaDespesas')
           deferred.resolve(data);
         })
         .error(function(err) {
-          console.error('ERROR getting data ', err);
+          console.error(err);
+
+          if(_.isObject(err))
+            err = JSON.stringify(err,null,1);
+
           $ionicLoading.show({
-            template: '<b class="assertive">ERROR: </b>' + err,
+            template: '<b class="assertive">ERROR</b><br/>' + err,
             // duration: 4000
           });
           deferred.reject(err);
@@ -111,9 +115,13 @@ angular.module('YaDespesas')
           deferred.resolve();
         })
         .error(function(err) {
-          console.error('ERROR saving data ', err);
+          console.error(err);
+
+          if(_.isObject(err))
+            err = JSON.stringify(err,null,2);
+
           $ionicLoading.show({
-            template: '<b class="assertive">ERROR: </b>' + err,
+            template: '<b class="assertive">ERROR</b><br/>' + err,
             // duration: 4000
           });
           deferred.reject(err);
