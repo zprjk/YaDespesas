@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('YaDespesas')
-  .controller('DetailsMonthCtrl', function($scope, $stateParams, api, moment, _, users) {
+  .controller('DetailsMonthCtrl', function($scope, $stateParams, api, moment, _, users, $ionicPopup) {
     $scope.year = $stateParams.year;
     $scope.month = moment(new Date($stateParams.year, $stateParams.month)).format('MMMM');
 
@@ -49,7 +49,8 @@ angular.module('YaDespesas')
             user.entries.push({
               value: mv.value,
               description: mv.description,
-              date: moment(new Date(mv.date)).format('(YYYY M) D - HH:MM')
+              date: moment(new Date(mv.date)).format('(YYYY M) D - HH:MM'),
+              id: mv.id
             });
 
             user.total += mv.value;
@@ -64,7 +65,8 @@ angular.module('YaDespesas')
           colectiveType.entries.push({
             value: mv.value,
             description: mv.description,
-            date: moment(new Date(mv.date)).format('(YYYY M) D - HH:MM')
+            date: moment(new Date(mv.date)).format('(YYYY M) D - HH:MM'),
+            id: mv.id
           });
 
           colectiveType.total += mv.value;
@@ -96,9 +98,40 @@ angular.module('YaDespesas')
         // console.log('colective', colective);
         // console.log('individual', individual);
         // console.log('totals', totals);
-
         $scope.colective = colective;
         $scope.individual = individual;
         $scope.totals = totals;
       });
+
+    //Popup
+    $scope.ConfirmDelete = function(entry, index, type) {
+      var confirmPopup = $ionicPopup.confirm({
+        title: 'Confirmação',
+        template: 'Tens a certeza que queres eliminar?',
+        cancelText: 'Não',
+        okText: 'Sim'
+      });
+      confirmPopup.then(function(res) {
+        if (res) 
+          Delete(entry, index, type);
+      });
+    };
+
+    //delete entry
+    function Delete(entry, index, type) {
+      api.DeleteEntry(entry.id)
+        .then(function() {
+          console.log(entry, index, type);
+
+          if (type === '50-50' || type === '70-30') { //TODO FIX this crap. re-do the whole controller.
+            _.find($scope.colective, {
+              'percentage': type
+            }).entries.splice(index, 1);
+          } else {
+            _.find($scope.individual, {
+              'username': type
+            }).entries.splice(index, 1);
+          }
+        });
+    }
   });

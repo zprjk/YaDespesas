@@ -104,7 +104,7 @@ exports.GetMonthValues = function(year, month, cb) {
   var db = new sqlite3.Database(dbPath);
   db.run('PRAGMA foreign_keys = ON;');
 
-  var query = 'SELECT user.name as username, expenseType.name as percentage, value, description, date ';
+  var query = 'SELECT expense.id, user.name as username, expenseType.name as percentage, value, description, date ';
   query += 'FROM Expense AS expense, User AS user, ExpensiveType AS expenseType ';
   query += 'WHERE user.id=expense.user_id ';
   query += 'AND expense.expenseType_id=expenseType.id ';
@@ -115,6 +115,16 @@ exports.GetMonthValues = function(year, month, cb) {
     db.close();
     return cb(err, rows);
   });
+}
+
+exports.DeleteEntry = function(id, cb) {
+   var db = new sqlite3.Database(dbPath);
+    db.run('PRAGMA foreign_keys = ON;');
+
+    db.run('DELETE FROM Expense WHERE id=?', id);
+    db.close(function(err){
+      return cb(err);
+    });
 }
 
 // function Initdb() {

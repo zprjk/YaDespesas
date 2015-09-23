@@ -11,6 +11,6 @@ router.get('/:year/:month', controller.GetMonthValues);
 router.post('/add', controller.Add);
 // router.put('/:id', controller.update);
 // router.patch('/:id', controller.update);
-// router.delete('/:id', controller.destroy);
+router.delete('/entry/:id', controller.DeleteEntry);
 
 module.exports = router;

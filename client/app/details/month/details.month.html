@@ -13,13 +13,14 @@
         <ion-item ng-repeat="entry in colType.entries">
           {{entry.value}}
           <span class="item-note">{{entry.description}}</span>
+          <ion-option-button class="ion-minus-circled icon assertive" ng-click="ConfirmDelete(entry, $index, colType.percentage)"></ion-option-button>
           <ion-option-button class="button-balanced">{{entry.date}}</ion-option-button>
         </ion-item>
       </div>
   		
       <!-- Individual Data -->
       <ion-item class="item item-divider item-balanced">Individual</ion-item>
-        
+
       <div ng-repeat="user in individual">
         <ion-item class="item item-divider">{{user.username}}
           <span class="badge badge-balanced">Total: {{user.total}}</span>
@@ -27,6 +28,7 @@
         <ion-item ng-repeat="entry in user.entries">
           {{entry.value}}
           <span class="item-note">{{entry.description}}</span>
+          <ion-option-button class="ion-minus-circled icon assertive" ng-click="ConfirmDelete(entry, $index, user.username)"></ion-option-button>
           <ion-option-button class="button-balanced">{{entry.date}}</ion-option-button>
         </ion-item>
       </div>

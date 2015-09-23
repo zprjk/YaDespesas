@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('YaDespesas')
-  .service('api', function api($http, $q, $ionicBackdrop, $ionicLoading) {
+  .service('api', function api($http, $q, $ionicBackdrop, $ionicLoading, _) {
     var baseEndpoint = 'http://localhost:3000/api'
 
     this.Add = function(data, callback) {
@@ -53,6 +53,20 @@ angular.module('YaDespesas')
         .then(function(months) {
 
           deferred.resolve(months);
+          return cb();
+        });
+
+      return deferred.promise;
+    }
+
+    this.DeleteEntry = function(id, callback) {
+      var cb = callback || angular.noop;
+      var deferred = $q.defer();
+
+      _Delete(baseEndpoint + '/expenses/entry/' + id)
+        .then(function() {
+
+          deferred.resolve();
           return cb();
         });
 
@@ -111,6 +125,34 @@ angular.module('YaDespesas')
         .success(function() {
           $ionicLoading.hide();
           console.log('POST', url, data);
+
+          deferred.resolve();
+        })
+        .error(function(err) {
+          console.error(err);
+
+          if(_.isObject(err))
+            err = JSON.stringify(err,null,2);
+
+          $ionicLoading.show({
+            template: '<b class="assertive">ERROR</b><br/>' + err,
+            // duration: 4000
+          });
+          deferred.reject(err);
+        });
+
+      return deferred.promise;
+    }
+
+    var _Delete = function(url) {
+      var deferred = $q.defer();
+
+      $ionicLoading.show();
+
+      $http.delete(url)
+        .success(function() {
+          $ionicLoading.hide();
+          console.log('DELETE', url);
 
           deferred.resolve();
         })

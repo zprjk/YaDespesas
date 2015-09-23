@@ -48,3 +48,14 @@ exports.GetMonthValues = function(req, res) {
   	return res.status(200).json(values);
   });
 };
+
+exports.DeleteEntry = function(req, res) {
+  var id = req.params.id;
+  
+  model.DeleteEntry(id,function(err){
+    if(err)
+      handleError(res, err);
+
+    return res.status(200).json();
+  });
+};
