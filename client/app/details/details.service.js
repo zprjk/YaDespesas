@@ -2,7 +2,7 @@
 
 angular.module('YaDespesas')
   .service('api', function api($http, $q, $ionicBackdrop, $ionicLoading, _) {
-    var baseEndpoint = 'http://localhost:3000/api'
+    var baseEndpoint = 'http://localhost:3000/api';
 
     this.Add = function(data, callback) {
       var cb = callback || angular.noop;
@@ -83,6 +83,33 @@ angular.module('YaDespesas')
           deferred.resolve(users);
           return cb();
         });
+
+      return deferred.promise;
+    }
+
+    this.GetDebts = function(callback) {
+      var cb = callback || angular.noop;
+      var deferred = $q.defer();
+
+      _Get(baseEndpoint + '/expenses/debts')
+        .then(function(debts) {
+
+          deferred.resolve(debts);
+          return cb();
+        });
+
+      return deferred.promise;
+    }
+
+    this.SetDebts = function(data, callback) {
+      var cb = callback || angular.noop;
+      var deferred = $q.defer();
+
+      _Post(baseEndpoint + '/expenses/debts', data)
+        .then(function() {
+          deferred.resolve();
+          return cb();
+        })
 
       return deferred.promise;
     }

@@ -112,7 +112,7 @@ angular.module('YaDespesas')
         okText: 'Sim'
       });
       confirmPopup.then(function(res) {
-        if (res) 
+        if (res)
           Delete(entry, index, type);
       });
     };

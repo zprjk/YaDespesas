@@ -1,0 +1,13 @@
+<ion-view view-title="Débitos">
+  <ion-content>
+    <div class="list padding">
+      <!-- Values -->
+      <label class="item item-input" ng-repeat="user in debts">
+        <div class="input-label">{{user.username}}</div>
+        <input class="text-right" type="tel" ng-model="user.value">
+      </label>
+    </div>
+    <!-- save data -->
+   <button class="button button-full button-balanced" ng-click="ConfirmUpdate()" ng-show="ShowUpdateButton()">Atualizar</button>
+  </ion-content>
+</ion-view>

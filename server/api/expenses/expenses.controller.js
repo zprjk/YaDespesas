@@ -59,3 +59,23 @@ exports.DeleteEntry = function(req, res) {
     return res.status(200).json();
   });
 };
+
+exports.GetDebts = function(req, res) {
+  model.GetDebts(function(err, debts){
+    if(err)
+      handleError(res, err);
+
+    return res.status(200).json(debts);
+  });
+}
+
+exports.SetDebts = function(req, res) {
+  var users = req.body;
+
+  model.SetDebts(users, function(err){
+    if(err)
+      handleError(res, err);
+
+    return res.status(200).json();
+  });
+}

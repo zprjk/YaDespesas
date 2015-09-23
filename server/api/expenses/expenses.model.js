@@ -38,31 +38,34 @@ exports.Add = function(user, cb) {
     //Update Debt values
     if (user.expensiveType === 'Colectiva') {
       db.all('SELECT user.id, user.name, debt.value FROM Debt as debt,User as user WHERE user.id=debt.user_id',
-        function(err, rows) { 
+        function(err, rows) {
           var percentages = user.percentage.split('-'); // ['70', '30']
 
-          var userPaying = _.find(rows,  {'name': user.name});
-          var otherUser = _.reject(rows, {'name': user.name})[0];
+          var userPaying = _.find(rows, {
+            'name': user.name
+          });
+          var otherUser = _.reject(rows, {
+            'name': user.name
+          })[0];
           console.log('');
           console.log(rows);
-          
+
           var subValue = Number(user.value) * (Number(percentages[otherUser.id - 1]) / 100); // 100 * 0.7(70%)
           var calc = userPaying.value - subValue;
-          
-          if(calc < 0 ) {
+
+          if (calc < 0) {
             otherUser.value = Number(otherUser.value) + Math.abs(calc);
             userPaying.value = 0;
-          } 
-          else
+          } else
             userPaying.value = calc;
 
           // UPDATE Debt SET value = 10 WHERE user_id=2
-          db.run('UPDATE Debt SET value=? WHERE user_id=?', rows[0].value, rows[0].id, 
+          db.run('UPDATE Debt SET value=? WHERE user_id=?', rows[0].value, rows[0].id,
             function(err) {
               if (err)
                 return cb(err);
 
-              db.run('UPDATE Debt SET value=? WHERE user_id=?', rows[1].value, rows[1].id, 
+              db.run('UPDATE Debt SET value=? WHERE user_id=?', rows[1].value, rows[1].id,
                 function(err) {
 
                   console.log('');
@@ -70,8 +73,8 @@ exports.Add = function(user, cb) {
 
                   db.close();
                   return cb(err); //null if no error
-              });
-          });      
+                });
+            });
         });
     } else {
       db.close();
@@ -118,12 +121,42 @@ exports.GetMonthValues = function(year, month, cb) {
 }
 
 exports.DeleteEntry = function(id, cb) {
-   var db = new sqlite3.Database(dbPath);
-    db.run('PRAGMA foreign_keys = ON;');
+  var db = new sqlite3.Database(dbPath);
+  db.run('PRAGMA foreign_keys = ON;');
 
-    db.run('DELETE FROM Expense WHERE id=?', id);
-    db.close(function(err){
-      return cb(err);
+  db.run('DELETE FROM Expense WHERE id=?', id);
+  db.close(function(err) {
+    return cb(err);
+  });
+}
+
+exports.GetDebts = function(cb) {
+  var db = new sqlite3.Database(dbPath);
+  db.run('PRAGMA foreign_keys = ON;');
+
+  db.all('SELECT user.id, user.name as username, debt.value FROM Debt as debt, User as user WHERE user.id=debt.user_id', function(err, rows) {
+    db.close();
+    return cb(err, rows);
+  });
+}
+
+exports.SetDebts = function(users, cb) {
+  var db = new sqlite3.Database(dbPath);
+
+  console.log(users);
+  db.run('PRAGMA foreign_keys = ON;');
+
+  db.run('UPDATE Debt SET value=? WHERE user_id=?', users[0].value, users[0].id,
+    function(err) {
+      if (err)
+        return cb(err);
+
+      db.run('UPDATE Debt SET value=? WHERE user_id=?', users[1].value, users[1].id,
+        function(err) {
+
+          db.close();
+          return cb(err); //null if no error
+        });
     });
 }
 
