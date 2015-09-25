@@ -11,8 +11,9 @@ router.post('/debts', controller.SetDebts);
 router.get('/:year', controller.GetMonths);
 router.get('/:year/:month', controller.GetMonthValues);
 router.post('/add', controller.Add);
+router.post('/remove/entry', controller.DeleteEntry);
 // router.put('/:id', controller.update);
 // router.patch('/:id', controller.update);
-router.delete('/entry/:id', controller.DeleteEntry);
+// router.delete('/entry', controller.DeleteEntry);
 
 module.exports = router;

@@ -1,4 +1,25 @@
-/* Empty. Add your own CSS if you like */
-/*.item-complex .item-content {
+/*.item .badge {
+	right: 12px;
+}
+
+.list .item-complex .item-content {
 	padding: 16px 16px 16px 16px;
+}
+
+i.icon.icon-small {
+    color: #808080;
+    font-size: smaller;
+}
+
+.list .item.item-accordion {
+  transition: 0.09s all linear;
+}
+
+.list .item.item-accordion.ng-hide {
+  line-height: 0px;
+}
+
+.list .item.item-accordion.ng-hide-add,
+.list .item.item-accordion.ng-hide-remove {
+  display: block !important;
 }*/

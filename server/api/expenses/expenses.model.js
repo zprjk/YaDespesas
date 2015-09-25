@@ -120,11 +120,52 @@ exports.GetMonthValues = function(year, month, cb) {
   });
 }
 
-exports.DeleteEntry = function(id, cb) {
+exports.DeleteEntry = function(entry, cb) {
+  console.log(entry);
   var db = new sqlite3.Database(dbPath);
   db.run('PRAGMA foreign_keys = ON;');
 
-  db.run('DELETE FROM Expense WHERE id=?', id);
+  db.run('DELETE FROM Expense WHERE id=?', entry.id, function() {
+    //Update Debt values
+    if (_.includes(entry.percentage, '-')) {
+      db.all('SELECT user.id, user.name, debt.value FROM Debt as debt,User as user WHERE user.id=debt.user_id',
+        function(err, rows) {
+          var percentages = entry.percentage.split('-'); // ['70', '30']
+
+          var userPaying = _.find(rows, {
+            'name': entry.username
+          });
+          var otherUser = _.reject(rows, {
+            'name': entry.username
+          })[0];
+          console.log('');
+          console.log(rows);
+
+          var subValue = Number(entry.value) * (Number(percentages[otherUser.id - 1]) / 100); // 100 * 0.7(70%)
+          var calc = userPaying.value - subValue;
+
+          if (calc < 0) {
+            otherUser.value = Number(otherUser.value) + Math.abs(calc);
+            userPaying.value = 0;
+          } else
+            userPaying.value = calc;
+
+          // UPDATE Debt SET value = 10 WHERE user_id=2
+          db.run('UPDATE Debt SET value=? WHERE user_id=?', rows[0].value, rows[0].id,
+            function() {
+
+              db.run('UPDATE Debt SET value=? WHERE user_id=?', rows[1].value, rows[1].id,
+                function() {
+                  console.log('');
+                  console.log(rows);
+                });
+            }
+          );
+        }
+      );
+    }
+  });
+
   db.close(function(err) {
     return cb(err);
   });

@@ -59,11 +59,11 @@ angular.module('YaDespesas')
       return deferred.promise;
     }
 
-    this.DeleteEntry = function(id, callback) {
+    this.DeleteEntry = function(entry, callback) {
       var cb = callback || angular.noop;
       var deferred = $q.defer();
 
-      _Delete(baseEndpoint + '/expenses/entry/' + id)
+      _Post(baseEndpoint + '/expenses/remove/entry', entry)
         .then(function() {
 
           deferred.resolve();
@@ -171,31 +171,31 @@ angular.module('YaDespesas')
       return deferred.promise;
     }
 
-    var _Delete = function(url) {
-      var deferred = $q.defer();
+    // var _Delete = function(url) {
+    //   var deferred = $q.defer();
 
-      $ionicLoading.show();
+    //   $ionicLoading.show();
 
-      $http.delete(url)
-        .success(function() {
-          $ionicLoading.hide();
-          console.log('DELETE', url);
+    //   $http.delete(url)
+    //     .success(function() {
+    //       $ionicLoading.hide();
+    //       console.log('DELETE', url);
 
-          deferred.resolve();
-        })
-        .error(function(err) {
-          console.error(err);
+    //       deferred.resolve();
+    //     })
+    //     .error(function(err) {
+    //       console.error(err);
 
-          if(_.isObject(err))
-            err = JSON.stringify(err,null,2);
+    //       if(_.isObject(err))
+    //         err = JSON.stringify(err,null,2);
 
-          $ionicLoading.show({
-            template: '<b class="assertive">ERROR</b><br/>' + err,
-            // duration: 4000
-          });
-          deferred.reject(err);
-        });
+    //       $ionicLoading.show({
+    //         template: '<b class="assertive">ERROR</b><br/>' + err,
+    //         // duration: 4000
+    //       });
+    //       deferred.reject(err);
+    //     });
 
-      return deferred.promise;
-    }
+    //   return deferred.promise;
+    // }
   });

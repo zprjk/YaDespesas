@@ -50,7 +50,9 @@ angular.module('YaDespesas')
               value: mv.value,
               description: mv.description,
               date: moment(new Date(mv.date)).format('(YYYY M) D - HH:MM'),
-              id: mv.id
+              id: mv.id,
+              username: mv.username,
+              percentage: mv.percentage
             });
 
             user.total += mv.value;
@@ -66,7 +68,9 @@ angular.module('YaDespesas')
             value: mv.value,
             description: mv.description,
             date: moment(new Date(mv.date)).format('(YYYY M) D - HH:MM'),
-            id: mv.id
+            id: mv.id,
+            username: mv.username,
+            percentage: mv.percentage
           });
 
           colectiveType.total += mv.value;
@@ -101,10 +105,14 @@ angular.module('YaDespesas')
         $scope.colective = colective;
         $scope.individual = individual;
         $scope.totals = totals;
+
+        console.log('Data tranformed', colective, individual, totals);
       });
 
     //Popup
-    $scope.ConfirmDelete = function(entry, index, type) {
+    $scope.ConfirmDelete = function(entry, index) {
+      console.log('Confirm delete', entry, index);
+
       var confirmPopup = $ionicPopup.confirm({
         title: 'Confirmação',
         template: 'Tens a certeza que queres eliminar?',
@@ -113,25 +121,31 @@ angular.module('YaDespesas')
       });
       confirmPopup.then(function(res) {
         if (res)
-          Delete(entry, index, type);
+          Delete(entry, index);
       });
     };
 
     //delete entry
-    function Delete(entry, index, type) {
-      api.DeleteEntry(entry.id)
+    function Delete(entry, index) {
+      api.DeleteEntry(entry)
         .then(function() {
-          console.log(entry, index, type);
-
-          if (type === '50-50' || type === '70-30') { //TODO FIX this crap. re-do the whole controller.
+          if (entry.percentage === '50-50' || entry.percentage === '70-30') { //TODO FIX this crap. re-do the whole controller.
             _.find($scope.colective, {
-              'percentage': type
+              'percentage': entry.percentage
             }).entries.splice(index, 1);
           } else {
             _.find($scope.individual, {
-              'username': type
+              'username': entry.username
             }).entries.splice(index, 1);
           }
         });
     }
+
+    $scope.toggleGroup = function(group) {
+      group.show = !group.show;
+    };
+
+    $scope.isGroupShown = function(group) {
+      return group.show;
+    };
   });

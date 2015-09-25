@@ -7,25 +7,29 @@
       <ion-item class="item item-divider item-balanced">Colectivo</ion-item>
       
       <div ng-repeat="colType in colective">
-        <ion-item class="item item-divider">{{colType.percentage}}
-          <span class="badge badge-balanced">Total: {{colType.total}}</span>
+        <ion-item class="item item-divider" ng-click="toggleGroup(colType)" ng-class="{active: isGroupShown(colType)}">
+          <i class="icon icon-small" ng-class="isGroupShown(colType) ? 'ion-minus' : 'ion-plus'"></i>
+          {{colType.percentage}}
+          <span class="badge badge-balanced">{{colType.total}}</span>
         </ion-item>
-        <ion-item ng-repeat="entry in colType.entries">
+        <ion-item ng-repeat="entry in colType.entries" class="item-accordion" ng-show="isGroupShown(colType)">
           {{entry.value}}
           <span class="item-note">{{entry.description}}</span>
           <ion-option-button class="ion-minus-circled icon assertive" ng-click="ConfirmDelete(entry, $index, colType.percentage)"></ion-option-button>
           <ion-option-button class="button-balanced">{{entry.date}}</ion-option-button>
         </ion-item>
       </div>
-  		
+
       <!-- Individual Data -->
       <ion-item class="item item-divider item-balanced">Individual</ion-item>
 
       <div ng-repeat="user in individual">
-        <ion-item class="item item-divider">{{user.username}}
-          <span class="badge badge-balanced">Total: {{user.total}}</span>
+        <ion-item class="item item-divider" ng-click="toggleGroup(user)" ng-class="{active: isGroupShown(user)}">
+          <i class="icon icon-small" ng-class="isGroupShown(user) ? 'ion-minus' : 'ion-plus'"></i>
+          {{user.username}}
+          <span class="badge badge-balanced">{{user.total}}</span>
         </ion-item>
-        <ion-item ng-repeat="entry in user.entries">
+        <ion-item ng-repeat="entry in user.entries" class="item-accordion" ng-show="isGroupShown(user)">
           {{entry.value}}
           <span class="item-note">{{entry.description}}</span>
           <ion-option-button class="ion-minus-circled icon assertive" ng-click="ConfirmDelete(entry, $index, user.username)"></ion-option-button>
