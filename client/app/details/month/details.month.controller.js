@@ -49,7 +49,7 @@ angular.module('YaDespesas')
             user.entries.push({
               value: mv.value,
               description: mv.description,
-              date: moment(new Date(mv.date)).format('(YYYY M) D - HH:MM'),
+              date: moment(new Date(mv.date)).format('(YYYY M) D - HH:mm'),
               id: mv.id,
               username: mv.username,
               percentage: mv.percentage
@@ -67,7 +67,7 @@ angular.module('YaDespesas')
           colectiveType.entries.push({
             value: mv.value,
             description: mv.description,
-            date: moment(new Date(mv.date)).format('(YYYY M) D - HH:MM'),
+            date: moment(new Date(mv.date)).format('(YYYY M) D - HH:mm'),
             id: mv.id,
             username: mv.username,
             percentage: mv.percentage
