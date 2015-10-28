@@ -4,6 +4,7 @@ angular.module('YaDespesas')
   .config(function($stateProvider) {
     $stateProvider
       .state('tab.debts', {
+        cache: false,
         url: '/debts',
         views: {
           'tab-options': {

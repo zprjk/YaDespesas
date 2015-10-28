@@ -3,7 +3,7 @@
 angular.module('YaDespesas')
   .config(function($stateProvider) {
     $stateProvider
-      .state('tab.details', {
+      .state('tab.details', { //ANOS
         url: '/details',
         views: {
           'tab-details': {
@@ -12,7 +12,7 @@ angular.module('YaDespesas')
           }
         }
       })
-      .state('tab.details-year', {
+      .state('tab.details-year', { //ANO
         url: '/details/:year',
         views: {
           'tab-details': {
@@ -21,7 +21,8 @@ angular.module('YaDespesas')
           }
         }
       })
-      .state('tab.details-month', {
+      .state('tab.details-month', { //MES
+        cache: false,
         url: '/details/:year/:month',
         views: {
           'tab-details': {
