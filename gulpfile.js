@@ -5,7 +5,7 @@ var gulp = require('gulp'),
   // rename = require('gulp-rename'),
   uglify = require('gulp-uglify'),
   del = require('del'),
-  // minify = require('gulp-minify-css'),
+  // minifyCss = require('gulp-minify-css'),
   ngAnnotate = require('gulp-ng-annotate'),
   inject = require('gulp-inject'),
   angularFilesort = require('gulp-angular-filesort'),
@@ -18,7 +18,7 @@ var gulp = require('gulp'),
 
 //cli option --target
 //WIP TODO:Mudar para process.env.NODE_ENV
-var target = yargs.target === 'production' ? true : false;
+var target = yargs.target === 'prod' ? true : false;
 
 var CLIENT_SRC = 'client';
 var SERVER_SRC = 'server';
@@ -70,7 +70,7 @@ gulp.task('css', function() {
   return gulp.src([paths.css, '!' + paths.bower], {
       base: CLIENT_SRC
     })
-    // .pipe(gulpif(target, minify())) //wtf not working. Why?
+    // .pipe(minifyCss()) //wtf not working. Why?
     .pipe(gulp.dest(DIST))
     .pipe(connect.reload());
 });
@@ -108,9 +108,22 @@ gulp.task('connect', function() {
 });
 
 //inject js & css
-gulp.task('inject', function() {
+gulp.task('inject', ['inject:js', 'inject:css']);
+
+gulp.task('inject:js', function() {
   var target = gulp.src(CLIENT_SRC + '/index.html');
-  var sources = gulp.src([paths.js, paths.css, '!' + paths.bower]).pipe(angularFilesort());
+  var sources = gulp.src([paths.js, '!' + paths.bower]).pipe(angularFilesort());
+
+  return target.pipe(inject(sources, {
+      relative: true
+    }))
+    .pipe(gulp.dest(CLIENT_SRC))
+    .pipe(connect.reload());
+});
+
+gulp.task('inject:css', function() {
+  var target = gulp.src(CLIENT_SRC + '/index.html');
+  var sources = gulp.src([paths.css, '!' + paths.bower]);
 
   return target.pipe(inject(sources, {
       relative: true
