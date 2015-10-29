@@ -48,7 +48,6 @@ angular.module('YaDespesas')
     $scope.currentDate = moment().format('D MMMM YYYY');
 
     $scope.ClickSend = function(user) {
-      console.log(user.value, _.isEmpty(user.value));
     	if((user.expensiveType === 'Colectiva' && user.description === null) || _.isEmpty(user.value)) {
     		return;
     	}
@@ -75,4 +74,8 @@ angular.module('YaDespesas')
         $scope.user.value = null;
       });
     }
+
+    $scope.$on('$ionicView.enter', function() {
+      $scope.currentDate = moment().format('D MMMM YYYY');
+    });
   });

@@ -47,7 +47,9 @@ exports.Add = function(user, cb) {
           var otherUser = _.reject(rows, {
             'name': user.name
           })[0];
+
           console.log('');
+          console.log('debt prev');
           console.log(rows);
 
           var subValue = Number(user.value) * (Number(percentages[otherUser.id - 1]) / 100); // 100 * 0.7(70%)
@@ -69,6 +71,7 @@ exports.Add = function(user, cb) {
                 function(err) {
 
                   console.log('');
+                  console.log('debt new');
                   console.log(rows);
 
                   db.close();
@@ -138,17 +141,25 @@ exports.DeleteEntry = function(entry, cb) {
           var otherUser = _.reject(rows, {
             'name': entry.username
           })[0];
+
           console.log('');
+          console.log('user that payed', userPaying);
+
+          console.log('');
+          console.log('other user', otherUser);
+
+          console.log('');
+          console.log('debt prev');
           console.log(rows);
 
           var subValue = Number(entry.value) * (Number(percentages[otherUser.id - 1]) / 100); // 100 * 0.7(70%)
-          var calc = userPaying.value - subValue;
+          var calc = Number(otherUser.value - subValue);
 
           if (calc < 0) {
-            otherUser.value = Number(otherUser.value) + Math.abs(calc);
-            userPaying.value = 0;
+            userPaying.value = Number(userPaying.value) + Math.abs(calc);
+            otherUser.value = 0;
           } else
-            userPaying.value = calc;
+            otherUser.value = calc;
 
           // UPDATE Debt SET value = 10 WHERE user_id=2
           db.run('UPDATE Debt SET value=? WHERE user_id=?', rows[0].value, rows[0].id,
@@ -157,6 +168,7 @@ exports.DeleteEntry = function(entry, cb) {
               db.run('UPDATE Debt SET value=? WHERE user_id=?', rows[1].value, rows[1].id,
                 function() {
                   console.log('');
+                  console.log('debt new');
                   console.log(rows);
                 });
             }
