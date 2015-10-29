@@ -2,7 +2,7 @@
   <ion-content>
     <ion-list>
       <ion-item class="item item-divider"><b>{{year}}</b></ion-item>
-      <ion-item ng-href="#/tab/details/{{year}}/{{month.id}}" collection-repeat="month in months">{{month.name}}</ion-item>
+      <ion-item ng-href="#/tab/details/{{year}}/{{month.id}}" collection-repeat="month in months | orderBy:id:true">{{month.name}}</ion-item>
     </ion-list>
   </ion-content>
 </ion-view>
