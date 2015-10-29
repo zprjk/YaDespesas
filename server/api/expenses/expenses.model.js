@@ -5,7 +5,7 @@ var path = require('path'),
   _ = require('lodash'),
   sqlite3 = require('sqlite3').verbose();
 
-var dbPath = path.join(__dirname, '..', '..', 'data', 'test.sqlite');
+var dbPath = path.join(__dirname, '..', '..', 'data', 'data.sqlite');
 
 exports.Add = function(user, cb) {
   console.log(user);
