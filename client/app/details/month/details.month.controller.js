@@ -132,6 +132,7 @@ angular.module('YaDespesas')
     //delete entry
     function Delete(entry, index) {
       manager.debtViewUpdated = false; //debt view needs to fetch data again
+      manager.monthViewUpdated = false; //temp. todo: melhorar o refresh(calculo totais,etc) quando se apaga uma entry
 
       api.DeleteEntry(entry)
         .then(function() {
