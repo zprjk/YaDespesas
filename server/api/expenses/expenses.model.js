@@ -17,72 +17,74 @@ exports.Add = function(user, cb) {
   var db = new sqlite3.Database(dbPath);
   db.run('PRAGMA foreign_keys = ON;');
 
-  db.run('INSERT OR IGNORE INTO Year VALUES (?)', year);
-  db.run('INSERT OR IGNORE INTO Month VALUES (?, ?)', month, year);
+  db.serialize(function() {
+    db.run('INSERT OR IGNORE INTO Year VALUES (?)', year);
+    db.run('INSERT OR IGNORE INTO Month VALUES (?, ?)', month, year);
 
-  db.run('INSERT INTO Expense VALUES ($id, (SELECT id FROM User WHERE name=$username), $year, $month, (SELECT id FROM ExpensiveType WHERE name=$percentage), $value, $description, $date)', {
-    $id: null,
-    $username: user.name,
-    $year: year,
-    $month: month,
-    $percentage: user.percentage,
-    $value: user.value,
-    $description: user.description,
-    $date: user.date
-  }, function(err) {
-    if (err) {
-      db.close();
-      return cb(err); //null if no error
-    }
+    db.run('INSERT INTO Expense VALUES ($id, (SELECT id FROM User WHERE name=$username), $year, $month, (SELECT id FROM ExpensiveType WHERE name=$percentage), $value, $description, $date)', {
+      $id: null,
+      $username: user.name,
+      $year: year,
+      $month: month,
+      $percentage: user.percentage,
+      $value: user.value,
+      $description: user.description,
+      $date: user.date
+    }, function(err) {
+      if (err) {
+        db.close();
+        return cb(err); //null if no error
+      }
 
-    //Update Debt values
-    if (user.expensiveType === 'Colectiva') {
-      db.all('SELECT user.id, user.name, debt.value FROM Debt as debt,User as user WHERE user.id=debt.user_id',
-        function(err, rows) {
-          var percentages = user.percentage.split('-'); // ['70', '30']
+      //Update Debt values
+      if (user.expensiveType === 'Colectiva') {
+        db.all('SELECT user.id, user.name, debt.value FROM Debt as debt,User as user WHERE user.id=debt.user_id',
+          function(err, rows) {
+            var percentages = user.percentage.split('-'); // ['70', '30']
 
-          var userPaying = _.find(rows, {
-            'name': user.name
-          });
-          var otherUser = _.reject(rows, {
-            'name': user.name
-          })[0];
-
-          console.log('');
-          console.log('debt prev');
-          console.log(rows);
-
-          var subValue = Number(user.value) * (Number(percentages[otherUser.id - 1]) / 100); // 100 * 0.7(70%)
-          var calc = userPaying.value - subValue;
-
-          if (calc < 0) {
-            otherUser.value = Number(otherUser.value) + Math.abs(calc);
-            userPaying.value = 0;
-          } else
-            userPaying.value = calc;
-
-          // UPDATE Debt SET value = 10 WHERE user_id=2
-          db.run('UPDATE Debt SET value=? WHERE user_id=?', rows[0].value, rows[0].id,
-            function(err) {
-              if (err)
-                return cb(err);
-
-              db.run('UPDATE Debt SET value=? WHERE user_id=?', rows[1].value, rows[1].id,
-                function(err) {
-
-                  console.log('');
-                  console.log('debt new');
-                  console.log(rows);
-
-                  db.close();
-                  return cb(err); //null if no error
-                });
+            var userPaying = _.find(rows, {
+              'name': user.name
             });
-        });
-    } else {
-      db.close();
-      return cb(err);
-    }
+            var otherUser = _.reject(rows, {
+              'name': user.name
+            })[0];
+
+            console.log('');
+            console.log('debt prev');
+            console.log(rows);
+
+            var subValue = Number(user.value) * (Number(percentages[otherUser.id - 1]) / 100); // 100 * 0.7(70%)
+            var calc = userPaying.value - subValue;
+
+            if (calc < 0) {
+              otherUser.value = Number(otherUser.value) + Math.abs(calc);
+              userPaying.value = 0;
+            } else
+              userPaying.value = calc;
+
+            // UPDATE Debt SET value = 10 WHERE user_id=2
+            db.run('UPDATE Debt SET value=? WHERE user_id=?', rows[0].value, rows[0].id,
+              function(err) {
+                if (err)
+                  return cb(err);
+
+                db.run('UPDATE Debt SET value=? WHERE user_id=?', rows[1].value, rows[1].id,
+                  function(err) {
+
+                    console.log('');
+                    console.log('debt new');
+                    console.log(rows);
+
+                    db.close();
+                    return cb(err); //null if no error
+                  });
+              });
+          });
+      } else {
+        db.close();
+        return cb(err);
+      }
+    });
   });
 }
 
