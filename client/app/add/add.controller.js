@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('YaDespesas')
-  .controller('AddCtrl', function($scope, moment, _, api, users) {
+  .controller('AddCtrl', function($scope, moment, _, api, users, manager) {
     //Init
     $scope.userNames = users;
     $scope.expensiveTypes = ['Individual', 'Colectiva'];
@@ -48,7 +48,8 @@ angular.module('YaDespesas')
     $scope.currentDate = moment().format('D MMMM YYYY');
 
     $scope.ClickSend = function(user) {
-    	if(user.expensiveType === 'Colectiva' && user.description === null) {
+      console.log(user.value, _.isEmpty(user.value));
+    	if((user.expensiveType === 'Colectiva' && user.description === null) || _.isEmpty(user.value)) {
     		return;
     	}
 
@@ -67,6 +68,9 @@ angular.module('YaDespesas')
       // console.log('Sending Data: ', output);
 
       api.Add(output).then(function() {
+        manager.debtViewUpdated = false; //debt views needs to fetch data again
+        manager.monthViewUpdated = false; //same for month view
+        
         $scope.user.description = null;
         $scope.user.value = null;
       });

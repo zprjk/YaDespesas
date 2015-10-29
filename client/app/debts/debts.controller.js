@@ -1,15 +1,19 @@
 'use strict';
 
 angular.module('YaDespesas')
-  .controller('DebtsCtrl', function($scope, api, $ionicPopup, _) {
+  .controller('DebtsCtrl', function($scope, api, $ionicPopup, _, manager) {
     var initialDebts = [];
 
-    //Get Data
-    api.GetDebts()
-      .then(function(debts) {
-        initialDebts = angular.copy(debts);
-        $scope.debts = debts;
-      });
+     //Get Data
+    function fetchData() {
+      api.GetDebts()
+        .then(function(debts) {
+          initialDebts = angular.copy(debts);
+          $scope.debts = debts;
+        });
+    }
+
+    fetchData();
 
     //Popup
     $scope.ConfirmUpdate = function() {
@@ -21,7 +25,7 @@ angular.module('YaDespesas')
       });
       confirmPopup.then(function(res) {
         if (res)
-          Update($scope.debts);
+          update($scope.debts);
       });
     };
 
@@ -36,11 +40,16 @@ angular.module('YaDespesas')
       return show;
     }
 
-    function Update(debts) {
+    function update(debts) {
       console.log('new debts', debts);
       api.SetDebts(debts)
         .then(function() {
         	initialDebts = angular.copy($scope.debts);
         });
     }
+
+    $scope.$on('$ionicView.enter', function() {
+      if(!manager.isDebtViewUpdated())
+        fetchData();
+    });
   });

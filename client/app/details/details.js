@@ -22,7 +22,6 @@ angular.module('YaDespesas')
         }
       })
       .state('tab.details-month', { //MES
-        cache: false,
         url: '/details/:year/:month',
         views: {
           'tab-details': {
